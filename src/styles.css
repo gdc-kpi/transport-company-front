@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    margin: 0px;
+    min-height: 100%;
+    background: url("./assets/img/background.jpg") no-repeat center center fixed;
+}
+
+.container-sm {
+    background-color: #ece2c8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}
+
+.sp-text {
+    color:rgb(153, 109, 91);
+}
