@@ -2,8 +2,5 @@
    max-width: 45%;
    background-color: #E5E5E5;
    font-size: larger;
-}
-
-a {
-   color: black;
+   min-height: fit-content;
 }
