@@ -4,6 +4,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { UserActivationComponent } from './user-activation/user-activation.component';
+import { LandingAuthUserComponent } from './landing-auth-user/landing-auth-user.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'restore-password', component: RestorePasswordComponent },
   { path: 'activate/:key', component: UserActivationComponent },
+  {path: 'app', component: LandingAuthUserComponent},
   { path: '**', redirectTo: 'login' }
 ];
 
