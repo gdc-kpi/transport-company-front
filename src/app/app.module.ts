@@ -10,6 +10,8 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserActivationComponent } from './user-activation/user-activation.component';
+import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
+import { LandingAuthUserComponent } from './landing-auth-user/landing-auth-user.component';
 
 
 @NgModule({
@@ -19,14 +21,16 @@ import { UserActivationComponent } from './user-activation/user-activation.compo
     LogInComponent,
     SignUpComponent,
     RestorePasswordComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    ChangeForgottenPasswordComponent,
+    LandingAuthUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

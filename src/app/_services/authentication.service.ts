@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../_models/user'
 import { environment } from '../../environments/environment'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import * as sha1 from 'js-sha1';
 import { map } from 'rxjs/operators';
 
@@ -54,13 +54,13 @@ export class AuthenticationService {
 
     return this.http.post<User>(this.url + 'log-in', JSON.stringify(userInfo), this.httpOptions).pipe(
       map(data => {
-          const tokenJSON: any = data;
-          localStorage.setItem('userData', tokenJSON.token);
-          const userDecode: User = jwt_decode(tokenJSON.token);
-          this.currentUserSubject.next(userDecode);
-          return userDecode; //TODO check
+        const tokenJSON: any = data;
+        localStorage.setItem('userData', tokenJSON.token);
+        const userDecode: User = jwt_decode(tokenJSON.token);
+        this.currentUserSubject.next(userDecode);
+        return userDecode; 
       })
-  );
+    );
   }
 
   public signUp(email: string, fullname: string, password: string): Observable<User> {
@@ -75,7 +75,25 @@ export class AuthenticationService {
 
   activate(key: string): Observable<any> {
     return this.http.post<any>(this.url + 'activate', null,
-        { headers: this.httpOptions.headers, params: { key } }); //TODO adjust checl
-}
+      { headers: this.httpOptions.headers, params: { key } });
+  }
+
+
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post<any>(this.url + 'recovery/send', JSON.stringify({email}),
+      this.httpOptions);
+  }
+      
+  confirmPasswordReset(key: string): Observable<any> {
+    return this.http.post<any>(this.url + 'recovery/confirm', null,
+    { headers: this.httpOptions.headers, params: { key } });
+  }
+      
+
+  changePassword(recoveryLink: string, password: string): Observable<any> {
+    return this.http.post<any>(this.url + 'recovery/change-password', JSON.stringify({recoveryLink, password}),
+      this.httpOptions);
+  }
+      
 
 }
