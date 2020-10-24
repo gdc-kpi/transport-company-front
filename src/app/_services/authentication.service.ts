@@ -18,6 +18,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   private url = environment.apiUrl + 'api/auth/';
+  private recoveryUrl = environment.apiUrl + 'api/recovery/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -74,24 +75,24 @@ export class AuthenticationService {
 
 
   activate(key: string): Observable<any> {
-    return this.http.post<any>(this.url + 'activate', null,
+    return this.http.patch<any>(this.url + 'activate', null,
       { headers: this.httpOptions.headers, params: { key } });
   }
 
 
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post<any>(this.url + 'recovery/send', JSON.stringify({email}),
+    return this.http.post<any>(this.recoveryUrl + 'send', JSON.stringify({email}),
       this.httpOptions);
   }
       
   confirmPasswordReset(key: string): Observable<any> {
-    return this.http.post<any>(this.url + 'recovery/confirm', null,
+    return this.http.get<any>(this.recoveryUrl + 'confirm',
     { headers: this.httpOptions.headers, params: { key } });
   }
       
 
   changePassword(recoveryLink: string, password: string): Observable<any> {
-    return this.http.post<any>(this.url + 'recovery/change-password', JSON.stringify({recoveryLink, password}),
+    return this.http.patch<any>(this.recoveryUrl + 'change-password', JSON.stringify({recoveryLink, password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)}),
       this.httpOptions);
   }
       

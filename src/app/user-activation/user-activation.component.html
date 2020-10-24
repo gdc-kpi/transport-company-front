@@ -3,10 +3,7 @@
         Account activated!
     </h1>
     <h1 *ngIf="activated == false" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
-        Couldn't find such account.
-    </h1>
-    <h1 *ngIf="activated == false" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
-        Account already activated.
+        {{errorMessage}}
     </h1>
     <h1 *ngIf="activated == undefined" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
         Activation in process...
