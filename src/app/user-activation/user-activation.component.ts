@@ -11,6 +11,7 @@ import { AuthenticationService } from '../_services/authentication.service';
 export class UserActivationComponent implements OnInit {
   subscriptions: Subscription[] = [];
   activated: boolean
+  errorMessage :string
 
   constructor(
     private route: ActivatedRoute,
@@ -18,18 +19,20 @@ export class UserActivationComponent implements OnInit {
 
   ) { 
     this.activated = undefined;
-    this.subscriptions.push(
-      this.authenticationService.activate(this.route.snapshot.paramMap.get('key')).subscribe(
-        (result) => {
-          this.activated = true;
-        },
-        (error) => {
-        }
-      ));
   }
   
 
   ngOnInit(): void {
+    this.subscriptions.push(
+      this.authenticationService.activate(this.route.snapshot.queryParams['key']).subscribe(
+        (result) => {
+          this.activated = true;
+        },
+        (error) => {
+          this.activated = false;
+          this.errorMessage = error.error.message;
+        }
+      ));
   }
 
 }
