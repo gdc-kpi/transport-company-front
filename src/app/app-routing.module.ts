@@ -4,8 +4,9 @@ import { LogInComponent } from './log-in/log-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { UserActivationComponent } from './user-activation/user-activation.component';
-import { LandingAuthUserComponent } from './landing-auth-user/landing-auth-user.component';
 import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
+import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
+import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'restore-password', component: RestorePasswordComponent },
   { path: 'activate', component: UserActivationComponent },
   { path: 'recovery', component: ChangeForgottenPasswordComponent },
-  { path: 'app', component: LandingAuthUserComponent },
+  { path: 'app/driver', component: LandingPageDriverComponent },
+  { path: 'app/admin', component: LandingPageAdminComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

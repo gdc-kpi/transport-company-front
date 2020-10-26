@@ -18,15 +18,15 @@ export class LogInComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService) { 
-      this.loginForm = this.formBuilder.group({
-        email: '',
-        password: '',
-      });
-    }
+    private authenticationService: AuthenticationService) {
+    this.loginForm = this.formBuilder.group({
+      email: '',
+      password: '',
+    });
+  }
 
   ngOnInit(): void {
-   
+
   }
 
   onSubmit(loginData) {
@@ -36,7 +36,11 @@ export class LogInComponent implements OnInit {
       this.subscriptions.push(
         this.authenticationService.logIn(loginData.email, loginData.password).subscribe(
           (result) => {
-            this.router.navigate(['/app']);
+            if (this.authenticationService.currentUserRole === 'driver') {
+              this.router.navigate(['/app/driver']);
+            } else {
+              this.router.navigate(['/app/admin']);
+            }
           },
           (error) => {
             this.loginForm.password = null;
@@ -61,7 +65,7 @@ export class LogInComponent implements OnInit {
 
     }
 
-    return this.emailMessage === null && this.passwordMessage === null ;
+    return this.emailMessage === null && this.passwordMessage === null;
   }
 
   clearErrorMessages() {

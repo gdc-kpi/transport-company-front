@@ -11,7 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserActivationComponent } from './user-activation/user-activation.component';
 import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
-import { LandingAuthUserComponent } from './landing-auth-user/landing-auth-user.component';
+import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
+import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { LandingAuthUserComponent } from './landing-auth-user/landing-auth-user.
     RestorePasswordComponent,
     UserActivationComponent,
     ChangeForgottenPasswordComponent,
-    LandingAuthUserComponent
+    LandingPageDriverComponent,
+    LandingPageAdminComponent,
+    
   ],
   imports: [
     BrowserModule,

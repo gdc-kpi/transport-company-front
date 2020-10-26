@@ -46,6 +46,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  public get currentUserRole(): String {
+    return this.currentUserSubject.value.role;
+  }
+
   public logIn(email: string, password: string): Observable<User> {
 
     const userInfo = {
