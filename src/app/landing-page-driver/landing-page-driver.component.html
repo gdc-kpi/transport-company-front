@@ -9,15 +9,14 @@
         <div class="row mt-5 mr-1 p-2">
             <div class="platedata col-md-8 offset-md-4 pb-2" style="background-color: darkgray;">
                 <h1 style="text-align: center;">
-                    ????????
+                    {{ driversCar === undefined ? "????????" : driversCar.plate }}
                 </h1>
                 <div style="font-size:larger;">
                     <div class="row">
                         <div class="col-md">
                             Capacity:
                         </div>
-
-                        <div class="col-md offset-md-3">?? cubic meters
+                        <div class="col-md offset-md-3"> {{ driversCar === undefined ? "??" : driversCar.capacity }} cubic meters
                         </div>
                     </div>
                     <div class="row">
@@ -25,14 +24,14 @@
                             Load Capacity:
                         </div>
 
-                        <div class="col-md offset-md-3">?? tons
+                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" : driversCar.loadCapacity }} tons
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md">
                             Fuel consumption:
                         </div>
-                        <div class="col-md offset-md-3">?? L/km
+                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" : driversCar.fuelConsumption }} L/km
                         </div>
                     </div>
                 </div>
@@ -61,7 +60,7 @@
         <div class="row p-2">
             <button type="button" class="btn btn-outline-secondary p-1 mt-1">Change password</button>
             <button type="button" class="btn btn-outline-secondary p-1 mt-1">Your Days Off</button>
-            <button type="button" class="btn btn-outline-secondary p-1 mt-1">Choose the Car</button>
+            <button type="button" *ngIf="driversCar === undefined" class="btn btn-outline-secondary p-1 mt-1">Choose the Car</button>
         </div>
     </div>
 </div>
