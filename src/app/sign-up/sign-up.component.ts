@@ -19,9 +19,9 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private formBuilder : FormBuilder,
+    private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService
-   ) { }
+  ) { }
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group({
@@ -35,14 +35,15 @@ export class SignUpComponent implements OnInit {
   onSubmit(signUpData) {
     this.clearErrorMessages();
 
-   if (this.validate(signUpData)) {
+    if (this.validate(signUpData)) {
       this.subscriptions.push(
         this.authenticationService.signUp(signUpData.email, signUpData.fullName, signUpData.password).subscribe(
           (result) => {
             alert('Check your email!');
+            this.signUpForm.reset();
           },
           (error) => {
-            alert(error.error.message);
+            this.confirmPasswordMessage = error.error.message;
           }
         ));
     }
@@ -71,14 +72,14 @@ export class SignUpComponent implements OnInit {
 
     if (signUpData.fullName === '' || signUpData.fullName == null) {
       this.fullNameMessage = 'Full name cannot be empty';
-    } else if (!signUpData.fullName.match('([^0-9]+$)')) {
-      this.fullNameMessage = 'Full name mustn\'t contain numbers';
+    } else if (!signUpData.fullName.match("^([A-ZÀ-ÿА-ЩЬЮЯҐЄІЇ][-,a-z.а-щьюяґєії']+[ ]*)+$")) {
+      this.fullNameMessage = 'Incorrect full name';
     }
 
-    return this.emailMessage === null &&  this.fullNameMessage === null && this.passwordMessage === null && this.confirmPasswordMessage === null;
+    return this.emailMessage === null && this.fullNameMessage === null && this.passwordMessage === null && this.confirmPasswordMessage === null;
   }
 
-  clearErrorMessages() {
+  private clearErrorMessages() {
     this.confirmPasswordMessage = null;
     this.emailMessage = null;
     this.passwordMessage = null;

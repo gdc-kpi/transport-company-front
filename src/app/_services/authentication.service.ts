@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../_models/user'
 import { environment } from '../../environments/environment'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import * as sha1 from 'js-sha1';
 import { map } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   private url = environment.apiUrl + 'api/auth/';
+  private recoveryUrl = environment.apiUrl + 'api/recovery/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -45,6 +46,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  public get currentUserRole(): String {
+    return this.currentUserSubject.value.role;
+  }
+
   public logIn(email: string, password: string): Observable<User> {
 
     const userInfo = {
@@ -54,13 +59,13 @@ export class AuthenticationService {
 
     return this.http.post<User>(this.url + 'log-in', JSON.stringify(userInfo), this.httpOptions).pipe(
       map(data => {
-          const tokenJSON: any = data;
-          localStorage.setItem('userData', tokenJSON.token);
-          const userDecode: User = jwt_decode(tokenJSON.token);
-          this.currentUserSubject.next(userDecode);
-          return userDecode; //TODO check
+        const tokenJSON: any = data;
+        localStorage.setItem('userData', tokenJSON.token);
+        const userDecode: User = jwt_decode(tokenJSON.token);
+        this.currentUserSubject.next(userDecode);
+        return userDecode; 
       })
-  );
+    );
   }
 
   public signUp(email: string, fullname: string, password: string): Observable<User> {
@@ -74,8 +79,26 @@ export class AuthenticationService {
 
 
   activate(key: string): Observable<any> {
-    return this.http.post<any>(this.url + 'activate', null,
-        { headers: this.httpOptions.headers, params: { key } }); //TODO adjust checl
-}
+    return this.http.patch<any>(this.url + 'activate', null,
+      { headers: this.httpOptions.headers, params: { key } });
+  }
+
+
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post<any>(this.recoveryUrl + 'send', JSON.stringify({email}),
+      this.httpOptions);
+  }
+      
+  confirmPasswordReset(key: string): Observable<any> {
+    return this.http.get<any>(this.recoveryUrl + 'confirm',
+    { headers: this.httpOptions.headers, params: { key } });
+  }
+      
+
+  changePassword(recoveryLink: string, password: string): Observable<any> {
+    return this.http.patch<any>(this.recoveryUrl + 'change-password', JSON.stringify({recoveryLink, password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)}),
+      this.httpOptions);
+  }
+      
 
 }
