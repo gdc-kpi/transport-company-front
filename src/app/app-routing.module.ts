@@ -7,6 +7,7 @@ import { UserActivationComponent } from './user-activation/user-activation.compo
 import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
+import { OrderComponent } from './order/order.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'recovery', component: ChangeForgottenPasswordComponent },
   { path: 'app/driver', component: LandingPageDriverComponent },
   { path: 'app/admin', component: LandingPageAdminComponent },
+  { path: 'app/admin/order', component: OrderComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

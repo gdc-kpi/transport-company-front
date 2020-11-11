@@ -13,6 +13,7 @@ import { UserActivationComponent } from './user-activation/user-activation.compo
 import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
+import { OrderComponent } from './order/order.component';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { LandingPageAdminComponent } from './landing-page-admin/landing-page-adm
     ChangeForgottenPasswordComponent,
     LandingPageDriverComponent,
     LandingPageAdminComponent,
-    
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
