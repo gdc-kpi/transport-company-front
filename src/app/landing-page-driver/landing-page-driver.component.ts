@@ -14,6 +14,7 @@ import {DriverServiceService } from '../_services/driver-service.service'
 export class LandingPageDriverComponent implements OnInit {
   subscriptions: Subscription[] = [];
   currentUser: User;
+  carplateForm;
 
   driversCar: Vehicle;
   constructor(
@@ -30,7 +31,9 @@ export class LandingPageDriverComponent implements OnInit {
       
   }
 
-
+  onCarplateSubmit(carplateData) {
+    
+  }
 
   ngOnInit(): void {
 
