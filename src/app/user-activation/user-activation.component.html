@@ -1,12 +1,15 @@
-<div class="container-sm p-2">
+<div class="container-sm p-2" >
     <h1 *ngIf="activated" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
         Account activated!
     </h1>
     <h1 *ngIf="activated == false" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
-        {{errorMessage}}
+        Couldn't find such account.
+    </h1>
+    <h1 *ngIf="activated == false" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
+        Account already activated.
     </h1>
     <h1 *ngIf="activated == undefined" style="text-align: center; margin-bottom: 1em;margin-top: 1em;">
         Activation in process...
     </h1>
-    <button routerlink="login" *ngIf="activated" class="mt-2 btn btn-primary btn-block" routerLink="/login">Proceed to Log In</button>
-</div>
+    <button routerlink="login" *ngIf="activated" class="mt-2 btn btn-primary btn-block">Proceed to Log In</button>
+</div> 
