@@ -10,10 +10,6 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserActivationComponent } from './user-activation/user-activation.component';
-import { ChangeForgottenPasswordComponent } from './change-forgotten-password/change-forgotten-password.component';
-import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
-import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
-import { OrderComponent } from './order/order.component';
 
 
 @NgModule({
@@ -23,18 +19,14 @@ import { OrderComponent } from './order/order.component';
     LogInComponent,
     SignUpComponent,
     RestorePasswordComponent,
-    UserActivationComponent,
-    ChangeForgottenPasswordComponent,
-    LandingPageDriverComponent,
-    LandingPageAdminComponent,
-    OrderComponent,
+    UserActivationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

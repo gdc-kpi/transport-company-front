@@ -4,9 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://transport-company-back.herokuapp.com/" 
-  //apiUrl: "http://localhost:8080/" 
-
+  apiUrl: "https://transport-company-back.herokuapp.com/"
 };
 
 /*
