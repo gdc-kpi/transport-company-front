@@ -1,10 +1,10 @@
 <div class="container-sm p-2" >
     <form class="form-horizontal m-1" role="form" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm.value)">
-        <h2 style="text-align: center;">Create Order</h2>
+        <h2 id="cap" style="text-align: center;">Create Order</h2>
         <div class="form-group" >
             <label for="title" class="col-sm-12 control-label">Title</label>
             <div class="col-sm-12">
-                <input formControlName="title" placeholder="Title" class="form-control" name= "title">
+                <input formControlName="title" class="form-control" name="title">
                 <div *ngIf="titleMessage" style="color: red;">
                     {{titleMessage}}
                   </div>
@@ -13,7 +13,7 @@
        <div class="form-group">
             <label for="descriprion" class="col-sm-12 control-label">Description</label>
             <div class="col-sm-12">
-                <input formControlName="description" placeholder="Description" class="form-control" name= "description">
+                <input formControlName="description" class="form-control" name="description">
                 <div *ngIf="descriptionMessage" style="color: red;">
                     {{descriptionMessage}}
                   </div>
@@ -23,7 +23,7 @@
             <div class="col-sm-6 form-group">
                 <label for="weight" class="col-sm-12 control-label">Weight</label>
                 <div class="col-sm-12">
-                    <input formControlName="weight" placeholder="Weight" class="form-control" name= "weight">
+                    <input formControlName="weight" class="form-control" name="weight" type="number" min="0">
                     <div *ngIf="weightMessage" style="color: red;">
                         {{weightMessage}}
                     </div>
@@ -32,7 +32,7 @@
             <div class="col-sm-6 form-group">
                 <label for="volume" class="col-sm-12 control-label">Volume</label>
                 <div class="col-sm-12">
-                    <input formControlName="volume" placeholder="Volume" class="form-control" name= "volume">
+                    <input formControlName="volume" class="form-control" name="volume" type="number" min="0" >
                     <div *ngIf="volumeMessage" style="color: red;">
                         {{volumeMessage}}
                     </div>
@@ -41,18 +41,28 @@
         </div>
         <div class="form-row">
             <div class="col-sm-6 form-group">
-                <label for="to" class="col-sm-12 control-label">To</label>
+                <label for="from" class="col-sm-12 control-label">From</label>
                 <div class="col-sm-12">
-                    <input formControlName="from" placeholder="From" class="form-control" name= "from">
+                    <div class="input-group">
+                        <input formControlName="from" class="form-control" name="from">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="fromAppend" onclick="document.getElementById('fromMapDialog').showModal();">Map</span>
+                        </div>
+                    </div>
                     <div *ngIf="fromMessage" style="color: red;">
                         {{fromMessage}}
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 form-group">
-                <label for="from" class="col-sm-12 control-label">From</label>
+                <label for="to" class="col-sm-12 control-label">To</label>
                 <div class="col-sm-12">
-                    <input formControlName="to" placeholder="To" class="form-control" name= "to">
+                    <div class="input-group">
+                        <input formControlName="to" class="form-control" name="to" aria-describedby="toAppend">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="toAppend" onclick="document.getElementById('toMapDialog').showModal();">Map</span>
+                        </div>
+                    </div>
                     <div *ngIf="toMessage" style="color: red;">
                         {{toMessage}}
                     </div>
@@ -63,7 +73,7 @@
             <div class="col-sm-6 form-group">
                 <label for="carplate" class="col-sm-12 control-label">Car plate</label>
                 <div class="col-sm-12">
-                    <input formControlName="carplate" placeholder="Car plate" class="form-control" name= "carplate">
+                    <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
                     <div *ngIf="carplateMessage" style="color: red;">
                         {{carplateMessage}}
                     </div>
@@ -72,7 +82,7 @@
             <div class="col-sm-6 form-group">
                 <label for="deadline" class="col-sm-12 control-label">Deadline</label>
                 <div class="col-sm-12">
-                    <input formControlName="deadline" placeholder="Deadline" class="form-control" name= "deadline">
+                    <input formControlName="deadline" type="datetime-local" class="form-control" name="deadline">
                     <div *ngIf="deadlineMessage" style="color: red;">
                         {{deadlineMessage}}
                     </div>
@@ -82,9 +92,20 @@
         <div class="form-group">
             <label for="drivername" class="col-sm-12 control-label">Driver's full name</label>
             <div class="col-sm-12">
-                <input formControlName="drivername" placeholder="Choose a car plate" class="form-control" name= "drivername" readonly="true">
+                <input formControlName="drivername" class="form-control" name="drivername" readonly>
+                <div *ngIf="drivernameMessage" style="color: red;">
+                    {{drivernameMessage}}
+                  </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Assign</button>
     </form>
 </div>
+
+<dialog id="fromMapDialog" class="container-sm p-2">
+    <google-map width="100%"  (mapClick)="fromClick($event)"></google-map>
+</dialog>
+
+<dialog id="toMapDialog" class="container-sm p-2">
+    <google-map width="100%"  (mapClick)="toClick($event)"></google-map>
+</dialog>

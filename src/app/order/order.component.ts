@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-// import { OrderService } from '../_services/order.service';
+// import { AdminService } from '../_services/admin-service.service';
+import { DriverServiceService } from '../_services/driver-service.service';
+import { Vehicle } from '../_models/vehicle';
+import { addParseSpanInfo } from '@angular/compiler-cli/src/ngtsc/typecheck/src/diagnostics';
 
 @Component({
   selector: 'app-order',
@@ -12,7 +15,10 @@ import { Subscription } from 'rxjs';
 export class OrderComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
-  orderForm;
+  orderForm: FormGroup;
+  carplates: Vehicle[]=[];
+  select: HTMLSelectElement;
+
   titleMessage: string;
   descriptionMessage: string;
   weightMessage: string;
@@ -21,19 +27,34 @@ export class OrderComponent implements OnInit {
   fromMessage: string;
   carplateMessage: string;
   deadlineMessage: string;
+  drivernameMessage: string;
+
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    /*private orderService: OrderService*/) {
+    private driverService: DriverServiceService) {
     this.orderForm = this.formBuilder.group({
-      title: '',
-      description: '',
-    });
+      title: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+      weight: new FormControl(0),
+      volume: new FormControl(0),
+      from: new FormControl(),
+      to: new FormControl(),
+      carplate: new FormControl(''),
+      deadline: new FormControl(),
+      drivername: new FormControl('')
+    }); 
   }
 
   ngOnInit(): void {
-
+    this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
+    this.loadCarplates();
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 
   onSubmit(orderData) {
     this.clearErrorMessages();
@@ -77,10 +98,42 @@ export class OrderComponent implements OnInit {
     this.fromMessage = null;
     this.carplateMessage = null;
     this.deadlineMessage = null;
+    this.drivernameMessage = null;
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
+  loadCarplates() {
+    this.driverService.getFreeCars().subscribe( (result: Vehicle[]) => {
+
+      result.forEach(val => this.carplates.push(Object.assign({}, val)));
+      for(let index in this.carplates) {        
+        this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+      }
+      
+      this.updateDriverName();
+    },
+    (error) => {
+    });  
   }
 
+  updateDriverName() {
+    if (this.carplates[this.select.selectedIndex].userId) {
+      this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].userId.toString()});
+    }
+    else {
+      this.orderForm.patchValue({drivername: ''});
+    }
+  }
+
+  fromClick(event: google.maps.MouseEvent) {
+    this.orderForm.patchValue({from: event.latLng.toString()});
+    let fromDialog = document.getElementById("fromMapDialog") as HTMLDialogElement;
+    fromDialog.close();
+  }
+  
+  toClick(event: google.maps.MouseEvent) {
+    this.orderForm.patchValue({to: event.latLng.toString()});
+    let toDialog = document.getElementById("toMapDialog") as HTMLDialogElement;
+    toDialog.close();
+  }
 }

@@ -67,11 +67,10 @@
 
 <dialog id="carplateDialog" class="container-sm p-2">
     <form class="form-horizontal m-1" role="form" [formGroup]="carplateForm" (ngSubmit)="onCarplateSubmit(carplateForm.value)">
-        <h2 style="text-align: center;">Choose a car plate</h2>
         <div class="form-group">
-            <label for="carplate" class="col-sm-12 control-label">Car plate</label>
+            <label for="carplate" class="col-sm-12 control-label">Choose a car plate</label>
             <div class="col-sm-12">
-                <input formControlName="carplate" placeholder="Car plate" class="form-control" name="carplate">
+                <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
             </div>
         </div>
         <button type="submit" onclick="document.getElementById('carplateDialog').close();" class="btn btn-primary btn-block col-sm-6 offset-sm-3">Choose</button>

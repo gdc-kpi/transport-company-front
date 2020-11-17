@@ -3,15 +3,16 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { Vehicle } from '../_models/vehicle';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DriverServiceService {
+export class AdminService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private url = environment.apiUrl + 'api/driver/';
+  private url = environment.apiUrl + 'api/admin/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,14 +32,8 @@ export class DriverServiceService {
     }
   }
 
-
-  getDriversCar(uuid : String): Observable<any> {
-    return this.http.get<any>(this.url + uuid + '/vehicle',
-      { headers: this.httpOptions.headers });
-  }
-
-  getFreeCars(): Observable<any> {
-    return this.http.get<any>(this.url + 'free-vehicles',
+  getAllCars(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(this.url + 'all-vehicles',
       { headers: this.httpOptions.headers });
   }
 
