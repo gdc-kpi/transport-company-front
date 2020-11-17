@@ -60,7 +60,19 @@
         <div class="row p-2">
             <button type="button" class="btn btn-outline-secondary p-1 mt-1">Change password</button>
             <button type="button" class="btn btn-outline-secondary p-1 mt-1">Your Days Off</button>
-            <button type="button" *ngIf="driversCar === undefined" class="btn btn-outline-secondary p-1 mt-1">Choose the Car</button>
+            <button type="button" onclick="document.getElementById('carplateDialog').showModal();" *ngIf="driversCar === undefined" class="btn btn-outline-secondary p-1 mt-1">Choose the Car</button>
         </div>
     </div>
 </div>
+
+<dialog id="carplateDialog" class="container-sm p-2">
+    <form class="form-horizontal m-1" role="form" [formGroup]="carplateForm" (ngSubmit)="onCarplateSubmit(carplateForm.value)">
+        <div class="form-group">
+            <label for="carplate" class="col-sm-12 control-label">Choose a car plate</label>
+            <div class="col-sm-12">
+                <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
+            </div>
+        </div>
+        <button type="submit" onclick="document.getElementById('carplateDialog').close();" class="btn btn-primary btn-block col-sm-6 offset-sm-3">Choose</button>
+    </form>
+</dialog>
