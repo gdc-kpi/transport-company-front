@@ -4,21 +4,38 @@
         <img class="img-fluid" src="assets/img/logo.png" style="max-height:3em">
       </a>
       <div class="d-flex offset-3">
-        <a  style="text-decoration: none; font-size: larger;" routerLink="/">
+        <a id="cap" style="text-decoration: none; font-size: larger;" routerLink="/">
           KyivTransComp
         </a>
       </div>
-      <div class="offset-4 row">
-      <div class="col-6">
-        <a routerLink="/login">
-         Log In
-        </a>
+      <div class="offset-4 row" *ngIf="!isLoggedIn">
+        <div class="col-6">
+          <a routerLink="/login">
+          Log In
+          </a>
+        </div>
+        <div class="col-6" style="display: inline-block;">
+          <a routerLink="/signup" >
+            Sign Up 
+          </a>
+        </div>
       </div>
-      <div class="col-6" style="display: inline-block;">
-        <a routerLink="/signup" >
-           Sign Up 
-        </a>
+      <div class="offset-4 row" *ngIf="isLoggedIn">
+        <div class="col-4">
+          <a>
+            Cars
+          </a>
+        </div>
+        <div class="col-4" style="display: inline-block;">
+          <a>
+            Drivers
+          </a>
+        </div>
+        <div class="col-4" style="display: inline-block;">
+          <a [routerLink]="" (click)="signOut();">
+            Sign Out
+          </a>
+        </div>
       </div>
-    </div>
     </div>
   </div>

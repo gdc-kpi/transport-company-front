@@ -42,6 +42,10 @@ export class LandingPageDriverComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.currentUser == null ||
+      this.currentUser.role !== 'driver') {
+      this.router.navigate(['/']);
+    }
     this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
     this.loadCarplates();
   }

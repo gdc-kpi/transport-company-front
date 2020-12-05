@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { DriverServiceService } from '../_services/driver-service.service';
 import { Vehicle } from '../_models/vehicle';
 import { addParseSpanInfo } from '@angular/compiler-cli/src/ngtsc/typecheck/src/diagnostics';
+import { User } from '../_models/user';
+import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   selector: 'app-order',
@@ -15,6 +17,7 @@ import { addParseSpanInfo } from '@angular/compiler-cli/src/ngtsc/typecheck/src/
 export class OrderComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
+  currentUser: User;
   orderForm: FormGroup;
   carplates: Vehicle[]=[];
   select: HTMLSelectElement;
@@ -32,7 +35,8 @@ export class OrderComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private driverService: DriverServiceService) {
+    private driverService: DriverServiceService,
+    private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -43,10 +47,15 @@ export class OrderComponent implements OnInit {
       carplate: new FormControl(''),
       deadline: new FormControl(),
       drivername: new FormControl('')
-    }); 
+    });
+    this.currentUser = authenticationService.currentUserValue;
   }
 
   ngOnInit(): void {
+    if (this.currentUser == null ||
+      this.currentUser.role !== 'admin') {
+      this.router.navigate(['/']);
+  }
     this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
     this.loadCarplates();
   }

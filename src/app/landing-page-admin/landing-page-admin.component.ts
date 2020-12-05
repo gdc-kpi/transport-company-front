@@ -15,10 +15,14 @@ export class LandingPageAdminComponent implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService) { 
-      this.currentUser = this.authenticationService.currentUserValue
+      this.currentUser = this.authenticationService.currentUserValue;
   }
 
   ngOnInit(): void {
+    if (this.currentUser == null ||
+      this.currentUser.role !== 'admin') {
+      this.router.navigate(['/']);
+    }
 
   }
 
