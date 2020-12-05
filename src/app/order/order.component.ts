@@ -1,6 +1,9 @@
+/// <reference types="@types/googlemaps" />
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {} from "googlemaps";
+
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';

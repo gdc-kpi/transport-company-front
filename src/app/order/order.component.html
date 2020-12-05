@@ -1,22 +1,22 @@
-<div class="container-sm p-2" >
+<div class="container-sm p-2">
     <form class="form-horizontal m-1" role="form" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm.value)">
         <h2 id="cap" style="text-align: center;">Create Order</h2>
-        <div class="form-group" >
+        <div class="form-group">
             <label for="title" class="col-sm-12 control-label">Title</label>
             <div class="col-sm-12">
                 <input formControlName="title" class="form-control" name="title">
                 <div *ngIf="titleMessage" style="color: red;">
                     {{titleMessage}}
-                  </div>
-            </div>  
+                </div>
+            </div>
         </div>
-       <div class="form-group">
+        <div class="form-group">
             <label for="descriprion" class="col-sm-12 control-label">Description</label>
             <div class="col-sm-12">
                 <input formControlName="description" class="form-control" name="description">
                 <div *ngIf="descriptionMessage" style="color: red;">
                     {{descriptionMessage}}
-                  </div>
+                </div>
             </div>
         </div>
         <div class="form-row">
@@ -32,7 +32,7 @@
             <div class="col-sm-6 form-group">
                 <label for="volume" class="col-sm-12 control-label">Volume</label>
                 <div class="col-sm-12">
-                    <input formControlName="volume" class="form-control" name="volume" type="number" min="0" >
+                    <input formControlName="volume" class="form-control" name="volume" type="number" min="0">
                     <div *ngIf="volumeMessage" style="color: red;">
                         {{volumeMessage}}
                     </div>
@@ -95,7 +95,7 @@
                 <input formControlName="drivername" class="form-control" name="drivername" readonly>
                 <div *ngIf="drivernameMessage" style="color: red;">
                     {{drivernameMessage}}
-                  </div>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Assign</button>
@@ -103,9 +103,9 @@
 </div>
 
 <dialog id="fromMapDialog" class="container-sm p-2">
-    <google-map width="100%"  (mapClick)="fromClick($event)"></google-map>
+    <google-map width="100%" (mapClick)="fromClick($event)"></google-map>
 </dialog>
 
 <dialog id="toMapDialog" class="container-sm p-2">
-    <google-map width="100%"  (mapClick)="toClick($event)"></google-map>
+    <google-map width="100%" (mapClick)="toClick($event)"></google-map>
 </dialog>
