@@ -14,7 +14,7 @@ import { ChangeForgottenPasswordComponent } from './change-forgotten-password/ch
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
-
+import { GoogleMapsModule } from '@angular/google-maps'
 
 @NgModule({
   declarations: [
@@ -35,6 +35,7 @@ import { OrderComponent } from './order/order.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

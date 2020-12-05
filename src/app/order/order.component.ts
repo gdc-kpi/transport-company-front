@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {} from "googlemaps";
-
+import { AfterViewInit, ViewChild, ElementRef } from 
+'@angular/core';
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
@@ -16,6 +17,7 @@ import { Vehicle } from '../_models/vehicle';
 })
 export class OrderComponent implements OnInit {
   subscriptions: Subscription[] = [];
+  @ViewChild('mapContainer', {static: false}) gmap: ElementRef;
 
   orderForm: FormGroup;
   carplates: Vehicle[]=[];
