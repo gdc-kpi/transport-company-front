@@ -3,11 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
-import { DriverServiceService } from '../_services/driver-service.service';
 import { Vehicle } from '../_models/vehicle';
-import { addParseSpanInfo } from '@angular/compiler-cli/src/ngtsc/typecheck/src/diagnostics';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
+import { OrderServiceService } from '../_services/order-service.service';
 
 @Component({
   selector: 'app-order',
@@ -35,7 +34,7 @@ export class OrderComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private driverService: DriverServiceService,
+    private orderService: OrderServiceService,
     private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -112,7 +111,7 @@ export class OrderComponent implements OnInit {
 
 
   loadCarplates() {
-    this.driverService.getFreeCars().subscribe( (result: Vehicle[]) => {
+    this.orderService.getDriversList().subscribe( (result: Vehicle[]) => {
 
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
       for(let index in this.carplates) {        
