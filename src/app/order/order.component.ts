@@ -1,6 +1,10 @@
+/// <reference types="@types/googlemaps" />
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {} from "googlemaps";
+import { AfterViewInit, ViewChild, ElementRef } from 
+'@angular/core';
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { Vehicle } from '../_models/vehicle';
@@ -15,6 +19,7 @@ import { OrderServiceService } from '../_services/order-service.service';
 })
 export class OrderComponent implements OnInit {
   subscriptions: Subscription[] = [];
+  @ViewChild('mapContainer', {static: false}) gmap: ElementRef;
 
   currentUser: User;
   orderForm: FormGroup;
