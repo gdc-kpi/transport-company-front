@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
 import { Vehicle } from '../_models/vehicle';
-import { addParseSpanInfo } from '@angular/compiler-cli/src/ngtsc/typecheck/src/diagnostics';
 
 @Component({
   selector: 'app-order',

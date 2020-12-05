@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,6 @@ import { ChangeForgottenPasswordComponent } from './change-forgotten-password/ch
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
-import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
