@@ -17,6 +17,7 @@ export class LandingPageDriverComponent implements OnInit {
   currentUser: User;
 
   carplateForm;
+  cars=[];
   carplates: Vehicle[]=[];
   select: HTMLSelectElement;
 
@@ -25,20 +26,29 @@ export class LandingPageDriverComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private driverService: DriverServiceService) { 
+      this.loadCarplates();
       this.currentUser = this.authenticationService.currentUserValue;
       driverService.getDriversCar(this.currentUser.id).subscribe( (result) => {        
          this.driversCar = result;
       },
       (error) => {
       });
-
-      this.carplateForm = this.formBuilder.group({
-        carplate: new FormControl(''),
-      }); 
   }
 
-  onCarplateSubmit(carplateData) {
-    
+  onCarplateSubmit(carData) {
+    this.subscriptions.push(
+      this.driverService.chooseDriversCar(this.currentUser.id, carData.cars).subscribe(
+        (result) => {
+          this.driverService.getDriversCar(this.currentUser.id).subscribe( (result) => {        
+            this.driversCar = result;
+          },
+          (error) => {
+          });
+        },
+        (error) => {
+          this.carplateForm.cars = null;
+        }
+      ));
   }
 
   ngOnInit(): void {
@@ -46,8 +56,8 @@ export class LandingPageDriverComponent implements OnInit {
       this.currentUser.role !== 'driver') {
       this.router.navigate(['/']);
     }
-    this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
-    this.loadCarplates();
+    // this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
+    // this.loadCarplates();
   }
 
   ngOnDestroy() {
@@ -55,11 +65,15 @@ export class LandingPageDriverComponent implements OnInit {
   }
 
   loadCarplates() {
-    this.driverService.getFreeCars().subscribe( (result: Vehicle[]) => {
+    this.carplateForm = this.formBuilder.group({
+      cars: [''],
+    }); 
 
+    this.driverService.getFreeCars().subscribe( (result: Vehicle[]) => {
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
-      for(let index in this.carplates) {        
-        this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+      for(let index in this.carplates) {
+        // this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+        this.cars.push(this.carplates[index].plate.toString());
       }
     },
     (error) => {

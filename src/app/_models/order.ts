@@ -1,8 +1,8 @@
 export class Vehicle {
-    public source : String
-    public destination: String;
-    public volume: String;
-    public weight: String;
+    public source : Coordinates;
+    public destination: Coordinates;
+    public volume: Number;
+    public weight: Number;
     public car_id: String;
     public description : String
     public deadline: String;

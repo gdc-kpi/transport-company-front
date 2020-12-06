@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -31,10 +31,14 @@ export class DriverServiceService {
     }
   }
 
-
   getDriversCar(uuid : String): Observable<any> {
     return this.http.get<any>(this.url + uuid + '/vehicle',
       { headers: this.httpOptions.headers });
+  }
+
+  chooseDriversCar(uuid : String, carplate: string): Observable<any> {
+    return this.http.get<any>(this.url + uuid + '/choose-car',
+      { headers: this.httpOptions.headers,  params: new HttpParams().set("plate", carplate) });
   }
 
   getFreeCars(): Observable<any> {
