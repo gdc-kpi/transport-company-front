@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../_models/user'
 import { environment } from '../../environments/environment'
@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 })
 
 export class AuthenticationService {
-
   public readonly PASSWORD_HASHING_ITERATIONS_AMOUNT = 5;
 
   private currentUserSubject: BehaviorSubject<User>;
@@ -40,6 +39,10 @@ export class AuthenticationService {
       crypt = sha1(crypt);
     }
     return crypt;
+  }
+
+  public get currentUserObservable(): Observable<User> {
+    return this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -100,5 +103,9 @@ export class AuthenticationService {
       this.httpOptions);
   }
       
-
+  signoutUser(): void {
+    localStorage.removeItem('userData');
+    this.currentUserSubject.next(null);
+  }
+  
 }

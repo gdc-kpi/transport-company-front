@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -7,11 +7,11 @@ import { User } from '../_models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class DriverServiceService {
+export class OrderServiceService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private url = environment.apiUrl + 'api/driver/';
+  private url = environment.apiUrl + 'api/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -31,19 +31,8 @@ export class DriverServiceService {
     }
   }
 
-  getDriversCar(uuid : String): Observable<any> {
-    return this.http.get<any>(this.url + uuid + '/vehicle',
+  getDriversList(): Observable<any> {
+    return this.http.get<any>(this.url + 'drivers-list',
       { headers: this.httpOptions.headers });
   }
-
-  chooseDriversCar(uuid : String, carplate: string): Observable<any> {
-    return this.http.get<any>(this.url + uuid + '/choose-car',
-      { headers: this.httpOptions.headers,  params: new HttpParams().set("plate", carplate) });
-  }
-
-  getFreeCars(): Observable<any> {
-    return this.http.get<any>(this.url + 'free-vehicles',
-      { headers: this.httpOptions.headers });
-  }
-
 }
