@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
+import { Order } from '../_models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,11 @@ export class AdminService {
     return this.http.get<Vehicle[]>(this.url + 'all-vehicles',
       { headers: this.httpOptions.headers });
   }
+
+  getOrders(type:string, admin:string): Observable<Order[]> {
+    return this.http.get<Order[]>(this.url + admin + '/orders/' + type,
+      { headers: this.httpOptions.headers });
+  }
+
 
 }

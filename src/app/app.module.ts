@@ -16,6 +16,9 @@ import { LandingPageAdminComponent } from './landing-page-admin/landing-page-adm
 import { OrderComponent } from './order/order.component';
 import { GoogleMapsModule } from '@angular/google-maps'
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +38,11 @@ import { GoogleMapsModule } from '@angular/google-maps'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatFormFieldModule,
+    BrowserModule,
+     FormsModule,
+     BrowserAnimationsModule,MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
