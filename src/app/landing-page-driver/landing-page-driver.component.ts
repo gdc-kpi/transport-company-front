@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
+import { Order } from '../_models/order';
 
 import { AuthenticationService } from '../_services/authentication.service';
 import { DriverServiceService } from '../_services/driver-service.service'
@@ -22,6 +23,11 @@ export class LandingPageDriverComponent implements OnInit {
   select: HTMLSelectElement;
 
   driversCar: Vehicle;
+
+  upcomingArray: Order[];
+  confirmPendingArray: Order[];
+  finishedArray: Order[];
+
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
@@ -33,6 +39,12 @@ export class LandingPageDriverComponent implements OnInit {
       },
       (error) => {
       });
+
+      
+      this.getToConfirm();
+      this.getUpcoming();
+      this.getFinished();
+
   }
 
   onCarplateSubmit(carData) {
@@ -78,6 +90,56 @@ export class LandingPageDriverComponent implements OnInit {
     },
     (error) => {
     });  
+  }
+
+
+
+  reload($event) {
+    switch ($event.index) {
+      case 0:
+        this.getToConfirm()
+        break;
+      case 1:
+        this.getUpcoming()
+        break;
+      case 2:
+        this.getFinished()
+        break;
+
+    }
+  }
+
+
+  getFinished() {
+    this.subscriptions.push(
+      this.driverService.getOrders("finished", this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.finishedArray = result;
+        },
+
+      ));
+  }
+
+
+  getToConfirm() {
+    this.subscriptions.push(
+      this.driverService.getOrders("to-confirm", this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.confirmPendingArray = result;
+        },
+
+      ));
+  }
+
+
+  getUpcoming() {
+    this.subscriptions.push(
+      this.driverService.getOrders("upcoming", this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.upcomingArray = result;
+        },
+
+      ));
   }
 
 }

@@ -42,18 +42,55 @@
             <h1 class="mb-4">
                 Orders
             </h1>
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">To confirm</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Upcoming</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Finished</a>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent" style="min-height:15vh;">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"></div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
-            </div>
+            <mat-tab-group (selectedTabChange)="reload($event)">
+
+                <mat-tab label="To confirm">
+                    <div *ngIf="confirmPendingArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of confirmPendingArray ">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                        </li>
+                    </ul>
+
+                </mat-tab>
+                <mat-tab label="Upcoming">
+                    <div *ngIf="upcomingArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of upcomingArray ">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+                <mat-tab label="Finished ">
+                    <div *ngIf="finishedArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of finishedArray ">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+
+            </mat-tab-group>
+
+
         </div>
     </div>
     <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">

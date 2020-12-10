@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Order } from '../_models/order';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -43,6 +44,13 @@ export class DriverServiceService {
 
   getFreeCars(): Observable<any> {
     return this.http.get<any>(this.url + 'free-vehicles',
+      { headers: this.httpOptions.headers });
+  }
+
+
+
+  getOrders(type:string, driver:string): Observable<Order[]> {
+    return this.http.get<Order[]>(this.url + driver + '/orders/' + type,
       { headers: this.httpOptions.headers });
   }
 
