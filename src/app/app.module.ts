@@ -20,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
+import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
     LandingPageAdminComponent,
     OrderComponent,
     InviteAdminComponent,
+    NewAdminPasswordComponent,
   ],
   imports: [
     BrowserModule,

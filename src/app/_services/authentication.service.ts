@@ -104,6 +104,12 @@ export class AuthenticationService {
   }
   
 
+
+  adminActivate(key: string, password: string): Observable<any> {
+    return this.http.patch<any>(this.url + 'admin-activate', JSON.stringify({password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT), key}),
+    this.httpOptions);
+  }
+
   signoutUser(): void {
     localStorage.removeItem('userData');
     this.currentUserSubject.next(null);

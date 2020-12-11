@@ -9,6 +9,7 @@ import { LandingPageDriverComponent } from './landing-page-driver/landing-page-d
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
+import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'activate', component: UserActivationComponent },
   { path: 'recovery', component: ChangeForgottenPasswordComponent },
   { path: 'app/driver', component: LandingPageDriverComponent },
+  { path: 'admin-activate', component: NewAdminPasswordComponent, },
   { path: 'app/admin', component: LandingPageAdminComponent },
   { path: 'app/admin/order', component: OrderComponent },
   { path: 'app/admin/invite', component: InviteAdminComponent },
