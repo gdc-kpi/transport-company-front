@@ -21,15 +21,19 @@
             </div>
         </div>
         <div class="offset-3 row" *ngIf="isLoggedIn">
-            <div class="col-4" style="display: inline-block;">
+            <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
                 <a>
             Cars
           </a>
             </div>
-            <div class="col-4" style="display: inline-block;">
+            <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
                 <a>
             Drivers
           </a>
+            </div>
+            <div class="col-8" *ngIf="!isAdmin" style="display: inline-block;">
+                <a>
+                </a>
             </div>
             <div class="col-4">
                 <a [routerLink]="" (click)="signOut();">

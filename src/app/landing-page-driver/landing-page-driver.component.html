@@ -45,7 +45,7 @@
             <mat-tab-group (selectedTabChange)="reload($event)">
 
                 <mat-tab label="To confirm">
-                    <div *ngIf="confirmPendingArray.length==0" class="mt-1">
+                    <div *ngIf="!confirmPendingArray || confirmPendingArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
@@ -60,12 +60,13 @@
 
                 </mat-tab>
                 <mat-tab label="Upcoming">
-                    <div *ngIf="upcomingArray.length==0" class="mt-1">
+                    <div *ngIf="!upcomingArray || upcomingArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
                         <li class="list-group-item" *ngFor="let order of upcomingArray ">
                             <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Status:</b> {{order.status | titlecase}} <br/>
                             <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
                             <div *ngIf="order.description">
                                 <b>Description: </b>{{order.description}} <br/>
@@ -74,7 +75,7 @@
                     </ul>
                 </mat-tab>
                 <mat-tab label="Finished ">
-                    <div *ngIf="finishedArray.length==0" class="mt-1">
+                    <div *ngIf="!finishedArray || finishedArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">

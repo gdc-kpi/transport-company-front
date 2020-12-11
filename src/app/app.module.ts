@@ -19,6 +19,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LandingPageDriverComponent,
     LandingPageAdminComponent,
     OrderComponent,
+    InviteAdminComponent,
   ],
   imports: [
     BrowserModule,

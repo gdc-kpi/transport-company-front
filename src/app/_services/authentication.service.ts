@@ -102,7 +102,8 @@ export class AuthenticationService {
     return this.http.patch<any>(this.recoveryUrl + 'change-password', JSON.stringify({recoveryLink, password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)}),
       this.httpOptions);
   }
-      
+  
+
   signoutUser(): void {
     localStorage.removeItem('userData');
     this.currentUserSubject.next(null);

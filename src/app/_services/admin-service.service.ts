@@ -43,5 +43,10 @@ export class AdminService {
       { headers: this.httpOptions.headers });
   }
 
+          
 
+  inviteAdmin(fullname: string, email: string): Observable<any> {
+    return this.http.post<any>(this.url + 'invite-admin', JSON.stringify({fullname, password: " ", email }),
+      this.httpOptions);
+  }
 }

@@ -51,7 +51,6 @@ export class LandingPageAdminComponent implements OnInit {
       this.adminService.getOrders("rejected", this.currentUser.id.toString()).subscribe(
         (result) => {
           this.rejectedArray = result;
-          console.log(this.rejectedArray)
         },
 
       ));
@@ -63,7 +62,6 @@ export class LandingPageAdminComponent implements OnInit {
       this.adminService.getOrders("confirmation-pending", this.currentUser.id.toString()).subscribe(
         (result) => {
           this.confirmPendingArray = result;
-          console.log(this.confirmPendingArray)
         },
 
       ));
@@ -75,7 +73,6 @@ export class LandingPageAdminComponent implements OnInit {
       this.adminService.getOrders("confirmed", this.currentUser.id.toString()).subscribe(
         (result) => {
           this.confirmedArray = result;
-          console.log(this.confirmedArray)
         },
 
       ));
@@ -87,7 +84,6 @@ export class LandingPageAdminComponent implements OnInit {
       this.adminService.getOrders("finished", this.currentUser.id.toString()).subscribe(
         (result) => {
           this.finishedArray = result;
-          console.log(this.finishedArray)
         },
 
       ));

@@ -3,7 +3,7 @@
         <div class="row p-2">
             <a routerLink="/app/admin/order"><button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Place an order</button></a>
             <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Add a car</button>
-            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Invite a moderator</button>
+            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" routerLink="/app/admin/invite">Invite a moderator</button>
             <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Requests for days off</button>
         </div>
     </div>
@@ -20,7 +20,7 @@
             </div>
             <mat-tab-group (selectedTabChange)="reload($event)">
                 <mat-tab label="Rejected">
-                    <div *ngIf="rejectedArray.length==0" class="mt-1">
+                    <div *ngIf="!rejectedArray || rejectedArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
@@ -35,7 +35,7 @@
                     </ul>
                 </mat-tab>
                 <mat-tab label="Confirmation Pending">
-                    <div *ngIf="confirmPendingArray.length==0" class="mt-1">
+                    <div *ngIf="!confirmPendingArray || confirmPendingArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
@@ -51,7 +51,7 @@
 
                 </mat-tab>
                 <mat-tab label="Confirmed ">
-                    <div *ngIf="confirmedArray.length==0" class="mt-1">
+                    <div *ngIf="!confirmedArray || confirmedArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
@@ -67,7 +67,7 @@
 
                 </mat-tab>
                 <mat-tab label="Finished ">
-                    <div *ngIf="finishedArray.length==0" class="mt-1">
+                    <div *ngIf="!finishedArray || finishedArray.length==0" class="mt-1">
                         <h3>No orders found</h3>
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
