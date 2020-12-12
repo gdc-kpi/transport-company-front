@@ -53,9 +53,10 @@ export class ShowOrderComponent implements OnInit {
     this.currentUser = authenticationService.currentUserValue;
   }
 
+
+  
   ngOnInit(): void {
-    if (this.currentUser == null ||
-      this.currentUser.role !== 'admin') {
+    if (this.currentUser == null) {
       this.router.navigate(['/']);
   }
     this.select = document.getElementById('carplate-select') as HTMLSelectElement;
