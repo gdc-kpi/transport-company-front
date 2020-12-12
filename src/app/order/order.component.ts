@@ -2,9 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {} from "googlemaps";
-import { AfterViewInit, ViewChild, ElementRef } from 
-'@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { Vehicle } from '../_models/vehicle';
@@ -23,7 +21,7 @@ export class OrderComponent implements OnInit {
 
   currentUser: User;
   orderForm: FormGroup;
-  carplates: Vehicle[]=[];
+  carplates: Vehicle[] = [];
   select: HTMLSelectElement;
 
   titleMessage: string;
@@ -38,9 +36,9 @@ export class OrderComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private orderService: OrderServiceService,
-    private authenticationService: AuthenticationService) {
+              private router: Router,
+              private orderService: OrderServiceService,
+              private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -60,16 +58,11 @@ export class OrderComponent implements OnInit {
       this.currentUser.role !== 'admin') {
       this.router.navigate(['/']);
   }
-    this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
+    this.select = document.getElementById('carplate-select') as HTMLSelectElement;
     this.loadCarplates();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-
-  onSubmit(orderData) {
+  onSubmit(orderData): any {
     this.clearErrorMessages();
 
     // if (this.validate(orderData)) {
@@ -102,7 +95,7 @@ export class OrderComponent implements OnInit {
     return this.titleMessage === null && this.descriptionMessage === null;
   }
 
-  clearErrorMessages() {
+  clearErrorMessages(): any {
     this.titleMessage = null;
     this.descriptionMessage = null;
     this.weightMessage = null;
@@ -115,21 +108,24 @@ export class OrderComponent implements OnInit {
   }
 
 
-  loadCarplates() {
+  loadCarplates(): any {
     this.orderService.getDriversList().subscribe( (result: Vehicle[]) => {
 
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
-      for(let index in this.carplates) {        
-        this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+      for (const index in this.carplates) {
+          if (this.carplates.hasOwnProperty(index)) {
+            this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
+              this.carplates[index].plate.toString());
+          }
       }
-      
+
       this.updateDriverName();
     },
     (error) => {
-    });  
+    });
   }
 
-  updateDriverName() {
+  updateDriverName(): any {
     if (this.carplates[this.select.selectedIndex].userId) {
       this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].userId.toString()});
     }
@@ -138,15 +134,15 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  fromClick(event: google.maps.MouseEvent) {
+  fromClick(event: google.maps.MouseEvent): void {
     this.orderForm.patchValue({from: event.latLng.toString()});
-    let fromDialog = document.getElementById("fromMapDialog") as HTMLDialogElement;
+    const fromDialog = document.getElementById('fromMapDialog') as HTMLDialogElement;
     fromDialog.close();
   }
-  
-  toClick(event: google.maps.MouseEvent) {
+
+  toClick(event: google.maps.MouseEvent): void {
     this.orderForm.patchValue({to: event.latLng.toString()});
-    let toDialog = document.getElementById("toMapDialog") as HTMLDialogElement;
+    const toDialog = document.getElementById('toMapDialog') as HTMLDialogElement;
     toDialog.close();
   }
 }

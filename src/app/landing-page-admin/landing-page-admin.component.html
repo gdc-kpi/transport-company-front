@@ -25,12 +25,14 @@
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
                         <li class="list-group-item" *ngFor="let order of rejectedArray ">
+                          <div class="border-1 p-2">
                             <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
                             <b>Assigned to:</b> {{order.driver_name}} <br/>
                             <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
                             <div *ngIf="order.description">
                                 <b>Description: </b>{{order.description}} <br/>
                             </div>
+                          </div>
                         </li>
                     </ul>
                 </mat-tab>
@@ -40,12 +42,14 @@
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
                         <li class="list-group-item" *ngFor="let order of confirmPendingArray ">
+                          <div class="border-1 p-2">
                             <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
                             <b>Assigned to:</b> {{order.driver_name}} <br/>
                             <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
                             <div *ngIf="order.description">
                                 <b>Description: </b>{{order.description}} <br/>
                             </div>
+                          </div>
                         </li>
                     </ul>
 
@@ -56,12 +60,14 @@
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
                         <li class="list-group-item" *ngFor="let order of confirmedArray ">
+                          <div class="border-1 p-2">
                             <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
                             <b>Assigned to:</b> {{order.driver_name}} <br/>
                             <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
                             <div *ngIf="order.description">
                                 <b>Description: </b>{{order.description}} <br/>
                             </div>
+                          </div>
                         </li>
                     </ul>
 
@@ -72,12 +78,14 @@
                     </div>
                     <ul class="no-bullets list-group " style="margin-bottom: 1em;">
                         <li class="list-group-item" *ngFor="let order of finishedArray ">
+                          <div class="border-1 p-2">
                             <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
                             <b>Assigned to:</b> {{order.driver_name}} <br/>
                             <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
                             <div *ngIf="order.description">
                                 <b>Description: </b>{{order.description}} <br/>
                             </div>
+                          </div>
                         </li>
                     </ul>
                 </mat-tab>
