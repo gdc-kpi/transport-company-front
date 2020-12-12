@@ -12,7 +12,6 @@ import { ShowOrderComponent } from './show-order/show-order.component';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 
-
 const routes: Routes = [
   { path: 'login', component: LogInComponent },
   { path: 'signup', component: SignUpComponent },
