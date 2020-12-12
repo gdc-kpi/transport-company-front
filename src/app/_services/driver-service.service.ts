@@ -43,7 +43,7 @@ export class DriverServiceService {
     return this.http.get<any>(this.url + 'free-vehicles',
       { headers: this.httpOptions.headers });
   }
-
+  
   getOrders(type: string, driver: string): Observable<Order[]> {
     return this.http.get<Order[]>(this.url + driver + '/orders/' + type,
       { headers: this.httpOptions.headers });

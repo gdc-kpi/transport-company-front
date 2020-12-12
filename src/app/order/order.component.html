@@ -23,7 +23,7 @@
             <div class="col-sm-6 form-group">
                 <label for="weight" class="col-sm-12 control-label">Weight</label>
                 <div class="col-sm-12">
-                    <input formControlName="weight" class="form-control" name="weight" type="number" min="0">
+                    <input formControlName="weight" class="form-control" name="weight" type="number" min="0" (change)="loadCarplates(orderForm.value);">
                     <div *ngIf="weightMessage" style="color: red;">
                         {{weightMessage}}
                     </div>
@@ -32,7 +32,7 @@
             <div class="col-sm-6 form-group">
                 <label for="volume" class="col-sm-12 control-label">Volume</label>
                 <div class="col-sm-12">
-                    <input formControlName="volume" class="form-control" name="volume" type="number" min="0">
+                    <input formControlName="volume" class="form-control" name="volume" type="number" min="0" (change)="loadCarplates(orderForm.value);">
                     <div *ngIf="volumeMessage" style="color: red;">
                         {{volumeMessage}}
                     </div>
@@ -82,7 +82,7 @@
             <div class="col-sm-6 form-group">
                 <label for="deadline" class="col-sm-12 control-label">Deadline</label>
                 <div class="col-sm-12">
-                    <input formControlName="deadline" type="datetime-local" class="form-control" name="deadline">
+                    <input formControlName="deadline" type="datetime-local" class="form-control" name="deadline" (change)="loadCarplates(orderForm.value);">
                     <div *ngIf="deadlineMessage" style="color: red;">
                         {{deadlineMessage}}
                     </div>
