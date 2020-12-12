@@ -13,9 +13,7 @@ import {Subscription} from 'rxjs';
 })
 export class CarCreatingComponent implements OnInit {
   subscriptions: Subscription[] = [];
-  currentUser: User;
   carForm: FormGroup;
-  select: HTMLSelectElement;
 
   plateMessage: string;
   capacityMessage: string;
@@ -41,7 +39,6 @@ export class CarCreatingComponent implements OnInit {
     this.clearErrorMessages();
 
     if (this.validate(carData)) {
-      this.fuelConsumptionMessage = 'Is valid';
       this.subscriptions.push(
         this.adminService.createCar(carData.plate, carData.capacity, carData.loadCapacity, carData.fuelConsumption).subscribe(
           (result) => {
@@ -51,7 +48,6 @@ export class CarCreatingComponent implements OnInit {
             this.fuelConsumptionMessage = error.error.message;
           }
         ));
-      this.fuelConsumptionMessage = 'Is Created';
     }
   }
 

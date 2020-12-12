@@ -53,6 +53,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value.role;
   }
 
+  public encryptedPassword(password: string): string {
+    return AuthenticationService.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT);
+  }
+
   public logIn(email: string, password: string): Observable<User> {
 
     const userInfo = {
@@ -118,4 +122,18 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
+  changeOldPassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.patch<any>(this.url + 'change-password',
+      JSON.stringify({
+        oldPassword: AuthenticationService.passwordHashing(oldPassword, this.PASSWORD_HASHING_ITERATIONS_AMOUNT),
+        newPassword: AuthenticationService.passwordHashing(newPassword, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
+      }),
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('userData'),
+          observe: 'response',
+        })
+      });
+  }
 }
