@@ -24,11 +24,7 @@ export class OrderComponent implements OnInit {
 
   currentUser: User;
   orderForm: FormGroup;
-<<<<<<< HEAD
   carplates: Driver[]=[];
-=======
-  carplates: Vehicle[] = [];
->>>>>>> 0ce6384c3ece56d8893cc8a86aa923bc1709b7db
   select: HTMLSelectElement;
 
   titleMessage: string;
@@ -232,46 +228,4 @@ export class OrderComponent implements OnInit {
     this.deadlineMessage = null;
     this.drivernameMessage = null;
   }
-<<<<<<< HEAD
-=======
-
-
-  loadCarplates(): any {
-    this.orderService.getDriversList().subscribe( (result: Vehicle[]) => {
-
-      result.forEach(val => this.carplates.push(Object.assign({}, val)));
-      for (const index in this.carplates) {
-          if (this.carplates.hasOwnProperty(index)) {
-            this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
-              this.carplates[index].plate.toString());
-          }
-      }
-
-      this.updateDriverName();
-    },
-    (error) => {
-    });
-  }
-
-  updateDriverName(): any {
-    if (this.carplates[this.select.selectedIndex].userId) {
-      this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].userId.toString()});
-    }
-    else {
-      this.orderForm.patchValue({drivername: ''});
-    }
-  }
-
-  fromClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({from: event.latLng.toString()});
-    const fromDialog = document.getElementById('fromMapDialog') as HTMLDialogElement;
-    fromDialog.close();
-  }
-
-  toClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({to: event.latLng.toString()});
-    const toDialog = document.getElementById('toMapDialog') as HTMLDialogElement;
-    toDialog.close();
-  }
->>>>>>> 0ce6384c3ece56d8893cc8a86aa923bc1709b7db
 }
