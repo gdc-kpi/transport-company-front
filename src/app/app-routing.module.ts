@@ -8,6 +8,7 @@ import { ChangeForgottenPasswordComponent } from './change-forgotten-password/ch
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
+import { ShowOrderComponent } from './show-order/show-order.component';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'app/admin', component: LandingPageAdminComponent },
   { path: 'app/admin/order', component: OrderComponent },
   { path: 'app/admin/invite', component: InviteAdminComponent },
+  { path: 'app/orders/:id', component: ShowOrderComponent },
   { path: '**', redirectTo: 'login' }
 ];
 
