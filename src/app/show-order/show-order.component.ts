@@ -1,10 +1,8 @@
-/// <reference types="@types/googlemaps" />
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import { AdminService } from '../_services/admin-service.service';
 import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
@@ -40,10 +38,13 @@ export class ShowOrderComponent implements OnInit {
   carplateMessage: string;
   deadlineMessage: string;
   drivernameMessage: string;
+
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 37.75;
   lng = -122.41;
+
+  isDriver: boolean;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -77,6 +78,10 @@ export class ShowOrderComponent implements OnInit {
     
     if (this.currentUser == null) {
       this.router.navigate(['/']);
+    } else if (this.currentUser.role === 'admin') {
+      this.isDriver = false;
+    } else{
+      this.isDriver = true;
     }
     this.select = document.getElementById('carplate-select') as HTMLSelectElement;
     this.loadCarplates();
