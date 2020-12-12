@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AdminService } from '../_services/admin-service.service'
+import { AdminService } from '../_services/admin-service.service';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Order } from '../_models/order';
@@ -34,21 +34,15 @@ export class LandingPageAdminComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    this.getConfirmed()
-    this.getFinished()
-    this.getRejected()
-    this.getConfirmationPending()
-
+    this.getConfirmed();
+    this.getFinished();
+    this.getRejected();
+    this.getConfirmationPending();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-
-  getRejected() {
+  getRejected(): any {
     this.subscriptions.push(
-      this.adminService.getOrders("rejected", this.currentUser.id.toString()).subscribe(
+      this.adminService.getOrders('rejected', this.currentUser.id.toString()).subscribe(
         (result) => {
           this.rejectedArray = result;
         },
@@ -56,10 +50,9 @@ export class LandingPageAdminComponent implements OnInit {
       ));
   }
 
-
-  getConfirmationPending() {
+  getConfirmationPending(): any {
     this.subscriptions.push(
-      this.adminService.getOrders("confirmation-pending", this.currentUser.id.toString()).subscribe(
+      this.adminService.getOrders('confirmation-pending', this.currentUser.id.toString()).subscribe(
         (result) => {
           this.confirmPendingArray = result;
         },
@@ -68,9 +61,9 @@ export class LandingPageAdminComponent implements OnInit {
   }
 
 
-  getConfirmed() {
+  getConfirmed(): any {
     this.subscriptions.push(
-      this.adminService.getOrders("confirmed", this.currentUser.id.toString()).subscribe(
+      this.adminService.getOrders('confirmed', this.currentUser.id.toString()).subscribe(
         (result) => {
           this.confirmedArray = result;
         },
@@ -79,9 +72,9 @@ export class LandingPageAdminComponent implements OnInit {
   }
 
 
-  getFinished() {
+  getFinished(): any {
     this.subscriptions.push(
-      this.adminService.getOrders("finished", this.currentUser.id.toString()).subscribe(
+      this.adminService.getOrders('finished', this.currentUser.id.toString()).subscribe(
         (result) => {
           this.finishedArray = result;
         },
@@ -89,19 +82,19 @@ export class LandingPageAdminComponent implements OnInit {
       ));
   }
 
-  reload($event) {
+  reload($event): void {
     switch ($event.index) {
       case 0:
-        this.getRejected()
+        this.getRejected();
         break;
       case 1:
-        this.getConfirmationPending()
+        this.getConfirmationPending();
         break;
       case 2:
-        this.getConfirmed()
+        this.getConfirmed();
         break;
       case 3:
-        this.getFinished()
+        this.getFinished();
 
     }
   }

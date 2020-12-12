@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
@@ -8,8 +8,6 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class OrderServiceService {
-
-  private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   private url = environment.apiUrl + 'api/';
   private httpOptions = {
@@ -28,7 +26,7 @@ export class OrderServiceService {
         observe: 'response',
 
       })
-    }
+    };
   }
 
   getDriversList(): Observable<any> {
