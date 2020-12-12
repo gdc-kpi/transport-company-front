@@ -2,8 +2,8 @@
     <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
         <div class="row p-2">
             <a routerLink="/app/admin/order" class="w-100"><button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Place an order</button></a>
-            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Add a car</button>
-            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Invite a moderator</button>
+            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" routerLink="/app/admin/car-creating">Add car</button>
+            <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" routerLink="/app/admin/invite">Invite moderator</button>
             <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Requests for days off</button>
         </div>
     </div>
@@ -18,26 +18,85 @@
             <div class="mb-4" style="font-size:x-large;">
                 Orders
             </div>
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Rejected</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Confirmation pending</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Confirmed</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Finished</a>
+            <mat-tab-group (selectedTabChange)="reload($event)">
+                <mat-tab label="Rejected">
+                    <div *ngIf="!rejectedArray || rejectedArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of rejectedArray ">
+                          <div class="border-1 p-2">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Assigned to:</b> {{order.driver_name}} <br/>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+                <mat-tab label="Confirmation Pending">
+                    <div *ngIf="!confirmPendingArray || confirmPendingArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of confirmPendingArray ">
+                          <div class="border-1 p-2">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Assigned to:</b> {{order.driver_name}} <br/>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
 
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent" style="min-height:15vh;">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"></div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
-            </div>
+                </mat-tab>
+                <mat-tab label="Confirmed ">
+                    <div *ngIf="!confirmedArray || confirmedArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of confirmedArray ">
+                          <div class="border-1 p-2">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Assigned to:</b> {{order.driver_name}} <br/>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+
+                </mat-tab>
+                <mat-tab label="Finished ">
+                    <div *ngIf="!finishedArray || finishedArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of finishedArray ">
+                          <div class="border-1 p-2">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Assigned to:</b> {{order.driver_name}} <br/>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+
+            </mat-tab-group>
+
         </div>
     </div>
-    <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
-        <div class="row p-2">
-            <button type="button" class="btn btn-outline-secondary p-1 mt-1">Change password</button>
+    <div class="col-md-1 columns-2 ml-auto h-50 " style="max-height: min-content; ">
+        <div class="row p-2 ">
+            <button type="button " class="btn btn-outline-secondary p-1 mt-1 " routerLink="/app/change-password">Change password</button>
         </div>
     </div>
 </div>

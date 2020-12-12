@@ -16,6 +16,13 @@ import { LandingPageAdminComponent } from './landing-page-admin/landing-page-adm
 import { OrderComponent } from './order/order.component';
 import { GoogleMapsModule } from '@angular/google-maps'
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InviteAdminComponent } from './invite-admin/invite-admin.component';
+import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
+import { CarCreatingComponent } from './car-creating/car-creating.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +35,10 @@ import { GoogleMapsModule } from '@angular/google-maps'
     LandingPageDriverComponent,
     LandingPageAdminComponent,
     OrderComponent,
+    InviteAdminComponent,
+    NewAdminPasswordComponent,
+    CarCreatingComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +46,11 @@ import { GoogleMapsModule } from '@angular/google-maps'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatFormFieldModule,
+    BrowserModule,
+     FormsModule,
+     BrowserAnimationsModule,MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

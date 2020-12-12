@@ -5,8 +5,8 @@ export class Order {
     public weight: String;
     public car_id: String;
     public description : String;
+    public admins_id : String;
     public deadline: String;
-    public admins_id: String;
     public status: String;
     public title: String;
 }

@@ -4,9 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
 import { Router } from '@angular/router';
-import {} from "googlemaps";
-import { AfterViewInit, ViewChild, ElementRef } from 
-'@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 // import { AdminService } from '../_services/admin-service.service';
 import { Vehicle } from '../_models/vehicle';
@@ -26,7 +24,11 @@ export class OrderComponent implements OnInit {
 
   currentUser: User;
   orderForm: FormGroup;
+<<<<<<< HEAD
   carplates: Driver[]=[];
+=======
+  carplates: Vehicle[] = [];
+>>>>>>> 0ce6384c3ece56d8893cc8a86aa923bc1709b7db
   select: HTMLSelectElement;
 
   titleMessage: string;
@@ -41,9 +43,9 @@ export class OrderComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private orderService: OrderServiceService,
-    private authenticationService: AuthenticationService) {
+              private router: Router,
+              private orderService: OrderServiceService,
+              private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -219,7 +221,7 @@ export class OrderComponent implements OnInit {
     return !invalid;
   }
 
-  clearErrorMessages() {
+  clearErrorMessages(): any {
     this.titleMessage = null;
     this.descriptionMessage = null;
     this.weightMessage = null;
@@ -230,4 +232,46 @@ export class OrderComponent implements OnInit {
     this.deadlineMessage = null;
     this.drivernameMessage = null;
   }
+<<<<<<< HEAD
+=======
+
+
+  loadCarplates(): any {
+    this.orderService.getDriversList().subscribe( (result: Vehicle[]) => {
+
+      result.forEach(val => this.carplates.push(Object.assign({}, val)));
+      for (const index in this.carplates) {
+          if (this.carplates.hasOwnProperty(index)) {
+            this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
+              this.carplates[index].plate.toString());
+          }
+      }
+
+      this.updateDriverName();
+    },
+    (error) => {
+    });
+  }
+
+  updateDriverName(): any {
+    if (this.carplates[this.select.selectedIndex].userId) {
+      this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].userId.toString()});
+    }
+    else {
+      this.orderForm.patchValue({drivername: ''});
+    }
+  }
+
+  fromClick(event: google.maps.MouseEvent): void {
+    this.orderForm.patchValue({from: event.latLng.toString()});
+    const fromDialog = document.getElementById('fromMapDialog') as HTMLDialogElement;
+    fromDialog.close();
+  }
+
+  toClick(event: google.maps.MouseEvent): void {
+    this.orderForm.patchValue({to: event.latLng.toString()});
+    const toDialog = document.getElementById('toMapDialog') as HTMLDialogElement;
+    toDialog.close();
+  }
+>>>>>>> 0ce6384c3ece56d8893cc8a86aa923bc1709b7db
 }
