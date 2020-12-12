@@ -1,8 +1,10 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { Driver } from '../_models/driver';
+import { Order } from '../_models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +33,11 @@ export class OrderServiceService {
     }
   }
 
-  getDriversList(): Observable<any> {
-    return this.http.get<any>(this.url + 'drivers-list',
-      { headers: this.httpOptions.headers });
+  getDriversList(order: Order): Observable<Driver[]> {
+    return this.http.post<Driver[]>(this.url + 'drivers-list', JSON.stringify(order), this.httpOptions );
+  }
+
+  createOrder(order: Order): Observable<any> {
+    return this.http.post<any>(this.url + 'order', JSON.stringify(order), this.httpOptions);
   }
 }
