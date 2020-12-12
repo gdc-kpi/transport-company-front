@@ -21,6 +21,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
+import { CarCreatingComponent } from './car-creating/car-creating.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +37,8 @@ import { NewAdminPasswordComponent } from './new-admin-password/new-admin-passwo
     OrderComponent,
     InviteAdminComponent,
     NewAdminPasswordComponent,
+    CarCreatingComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

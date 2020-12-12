@@ -10,6 +10,8 @@ import { LandingPageAdminComponent } from './landing-page-admin/landing-page-adm
 import { OrderComponent } from './order/order.component';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
+import {CarCreatingComponent} from './car-creating/car-creating.component';
+import {ChangePasswordComponent} from './change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'app/admin', component: LandingPageAdminComponent },
   { path: 'app/admin/order', component: OrderComponent },
   { path: 'app/admin/invite', component: InviteAdminComponent },
+  { path: 'app/admin/car-creating', component: CarCreatingComponent },
+  { path: 'app/change-password', component: ChangePasswordComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

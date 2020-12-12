@@ -38,15 +38,20 @@ export class AdminService {
       { headers: this.httpOptions.headers });
   }
 
-  getOrders(type:string, admin:string): Observable<Order[]> {
+  getOrders(type: string, admin: string): Observable<Order[]> {
     return this.http.get<Order[]>(this.url + admin + '/orders/' + type,
       { headers: this.httpOptions.headers });
   }
 
-          
+
 
   inviteAdmin(fullname: string, email: string): Observable<any> {
     return this.http.post<any>(this.url + 'invite-admin', JSON.stringify({fullname, password: " ", email }),
+      this.httpOptions);
+  }
+
+  createCar(plate: string, capacity: string, loadCapacity: string, fuelConsumption: string): Observable<any> {
+    return this.http.post<any>(this.url + 'add-vehicle', JSON.stringify({plate, capacity, loadCapacity, fuelConsumption}),
       this.httpOptions);
   }
 }
