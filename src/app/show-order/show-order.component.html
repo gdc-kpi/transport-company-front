@@ -1,6 +1,9 @@
 <div class="container-sm p-2">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
     <form class="form-horizontal m-1" role="form" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm.value)">
-        <h2 id="cap" style="text-align: center;">Create Order</h2>
+        <h2 id="cap" style="text-align: center;">Show Order</h2>
+        <div id="map" class="map-container"> </div>
 
     </form>
 </div>

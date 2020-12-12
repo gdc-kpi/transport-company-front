@@ -9,6 +9,13 @@ import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
+import * as mapboxgl from 'mapbox-gl';
+
+const environment = {
+  mapbox: {
+    accessToken: 'pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w'
+  }
+}
 
 @Component({
   selector: 'app-order',
@@ -17,7 +24,7 @@ import { OrderServiceService } from '../_services/order-service.service';
 })
 export class ShowOrderComponent implements OnInit {
   subscriptions: Subscription[] = [];
-  @ViewChild('mapContainer', {static: false}) gmap: ElementRef;
+  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
 
   currentUser: User;
   orderForm: FormGroup;
@@ -33,12 +40,15 @@ export class ShowOrderComponent implements OnInit {
   carplateMessage: string;
   deadlineMessage: string;
   drivernameMessage: string;
-
+  map: mapboxgl.Map;
+  style = 'mapbox://styles/mapbox/streets-v11';
+  lat = 37.75;
+  lng = -122.41;
 
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private orderService: OrderServiceService,
-              private authenticationService: AuthenticationService) {
+    private router: Router,
+    private orderService: OrderServiceService,
+    private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -53,12 +63,21 @@ export class ShowOrderComponent implements OnInit {
     this.currentUser = authenticationService.currentUserValue;
   }
 
-
-  
   ngOnInit(): void {
+    // mapboxgl.accessToken = environment.mapbox.accessToken;
+    Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat]
+    });
+    this.map.addControl(new mapboxgl.NavigationControl());
+
+    
     if (this.currentUser == null) {
       this.router.navigate(['/']);
-  }
+    }
     this.select = document.getElementById('carplate-select') as HTMLSelectElement;
     this.loadCarplates();
   }
@@ -110,39 +129,39 @@ export class ShowOrderComponent implements OnInit {
 
 
   loadCarplates(): any {
-    this.orderService.getDriversList().subscribe( (result: Vehicle[]) => {
+    this.orderService.getDriversList().subscribe((result: Vehicle[]) => {
 
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
       for (const index in this.carplates) {
-          if (this.carplates.hasOwnProperty(index)) {
-            this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
-              this.carplates[index].plate.toString());
-          }
+        if (this.carplates.hasOwnProperty(index)) {
+          this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
+            this.carplates[index].plate.toString());
+        }
       }
 
       this.updateDriverName();
     },
-    (error) => {
-    });
+      (error) => {
+      });
   }
 
   updateDriverName(): any {
     if (this.carplates[this.select.selectedIndex].userId) {
-      this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].userId.toString()});
+      this.orderForm.patchValue({ drivername: this.carplates[this.select.selectedIndex].userId.toString() });
     }
     else {
-      this.orderForm.patchValue({drivername: ''});
+      this.orderForm.patchValue({ drivername: '' });
     }
   }
 
   fromClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({from: event.latLng.toString()});
+    this.orderForm.patchValue({ from: event.latLng.toString() });
     const fromDialog = document.getElementById('fromMapDialog') as HTMLDialogElement;
     fromDialog.close();
   }
 
   toClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({to: event.latLng.toString()});
+    this.orderForm.patchValue({ to: event.latLng.toString() });
     const toDialog = document.getElementById('toMapDialog') as HTMLDialogElement;
     toDialog.close();
   }
