@@ -1,10 +1,11 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
 import { Order } from '../_models/order';
+import { Driver } from '../_models/driver';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,8 @@ export class AdminService {
     };
   }
 
-  getAllCars(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(this.url + 'all-vehicles',
+  getAllCars(): Observable<Map<String, Vehicle>> {
+    return this.http.get<Map<String, Vehicle>>(this.url + 'all-vehicles',
       { headers: this.httpOptions.headers });
   }
 
@@ -49,5 +50,10 @@ export class AdminService {
   createCar(plate: string, capacity: string, loadCapacity: string, fuelConsumption: string): Observable<any> {
     return this.http.post<any>(this.url + 'add-vehicle', JSON.stringify({plate, capacity, loadCapacity, fuelConsumption}),
       this.httpOptions);
+  }
+
+  getDrivers(fullname: string): Observable<Driver[]> {
+    return this.http.get<Driver[]>(this.url + 'drivers',
+      { headers: this.httpOptions.headers, params: new HttpParams().set('fullname', fullname) });
   }
 }
