@@ -1,15 +1,22 @@
-<div class="container-sm p-2">
-  <ul class="no-bullets list-group " style="margin-bottom: 1em;">
-    <li class="list-group-item" *ngFor="let driver of drivers">
-      <div class="border-1 p-2">
-        <h5><a>{{driver.fullname}}</a></h5>
-        <b>Car plate:</b> {{driver.carPlate}} <br/>
-      </div>
-    </li>
-  </ul>
+<div class="row container">
+  <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
+
+  </div>
+
+  <div class="columns plr-5 col-md-6 p-2">
+    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+      <li class="list-group-item" *ngFor="let driver of drivers">
+        <div class="border-1 p-2">
+          <h5><a>{{driver.fullname}}</a></h5>
+          <b>Car plate:</b> {{driver.carPlate}} <br/>
+        </div>
+      </li>
+    </ul>
+  </div>
+
   <div class="col-md-1 columns-2 ml-auto h-50 " style="max-height: min-content; ">
-    <div class="row p-2 ">
-        <button type="button " class="btn btn-outline-secondary p-1 mt-1 " (click)="backClicked();">Go Back</button>
-    </div>
-</div>
+    <div class="row p-2">
+      <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1"  (click)="backClicked();">Back</button>
+  </div>
+  </div>
 </div>
