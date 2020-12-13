@@ -8,13 +8,13 @@ import { ChangeForgottenPasswordComponent } from './change-forgotten-password/ch
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
+import { ShowOrderComponent } from './show-order/show-order.component';
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import {CarCreatingComponent} from './car-creating/car-creating.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import {ShowDaysOffComponent} from './show-days-off/show-days-off.component';
 import {DaysOffComponent} from './days-off/days-off.component';
-
 
 const routes: Routes = [
   { path: 'login', component: LogInComponent },
@@ -31,6 +31,7 @@ const routes: Routes = [
   { path: 'app/change-password', component: ChangePasswordComponent },
   { path: 'app/show-days-off', component: ShowDaysOffComponent },
   { path: 'app/show-days-off/days-off', component: DaysOffComponent },
+  { path: 'app/orders/:id', component: ShowOrderComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

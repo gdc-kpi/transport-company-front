@@ -24,6 +24,7 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import { CarCreatingComponent } from './car-creating/car-creating.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import {ShowOrderComponent} from './show-order/show-order.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     CarCreatingComponent,
     ChangePasswordComponent,
     ShowDaysOffComponent,
-    DaysOffComponent
+    DaysOffComponent,
+    ShowOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -52,8 +54,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     HttpClientModule,
     MatFormFieldModule,
     BrowserModule,
-     FormsModule,
-     BrowserAnimationsModule,MatTabsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
