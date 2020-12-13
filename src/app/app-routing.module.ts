@@ -12,6 +12,7 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import {CarCreatingComponent} from './car-creating/car-creating.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
+import {ShowDaysOffComponent} from './show-days-off/show-days-off.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'app/admin/invite', component: InviteAdminComponent },
   { path: 'app/admin/car-creating', component: CarCreatingComponent },
   { path: 'app/change-password', component: ChangePasswordComponent },
+  { path: 'app/driver/show-days-off', component: ShowDaysOffComponent },
   { path: '**', redirectTo: 'login' }
 ];
 
