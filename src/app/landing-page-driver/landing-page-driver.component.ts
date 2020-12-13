@@ -132,25 +132,9 @@ export class LandingPageDriverComponent implements OnInit {
       ));
   }
 
-  async reject(order): Promise<void> {
+  async changeOrderStatus(order, status: string): Promise<void> {
     this.isDisabled = true;
-    this.subscriptions.push(this.driverService.rejectOrder(order.orderId).subscribe(
-      (result) => {
-        this.upcomingArray = result;
-      },
-    ));
-    await this.delay(2000);
-    this.reload(0);
-    this.isDisabled = false;
-  }
-
-  async confirm(order): Promise<void> {
-    this.isDisabled = true;
-    this.subscriptions.push(this.driverService.confirmOrder(order.orderId).subscribe(
-      (result) => {
-        this.upcomingArray = result;
-      },
-    ));
+    this.subscriptions.push(this.driverService.changeOrderStatus(order.orderId, status).subscribe());
     await this.delay(2000);
     this.reload(0);
     this.isDisabled = false;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
-import { GoogleMapsModule } from '@angular/google-maps';
+import {Order} from '../_models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,6 @@ export class OrderServiceService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       observe: 'response',
-
     })
   };
 
@@ -25,13 +24,17 @@ export class OrderServiceService {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + localStorage.getItem('userData'),
         observe: 'response',
-
       })
     };
   }
 
   getDriversList(): Observable<any> {
     return this.http.get<any>(this.url + 'drivers-list',
+      { headers: this.httpOptions.headers });
+  }
+
+  getOrder(orderId: string): Observable<Order> {
+    return this.http.get<Order>(this.url + '/order/' + orderId,
       { headers: this.httpOptions.headers });
   }
 }

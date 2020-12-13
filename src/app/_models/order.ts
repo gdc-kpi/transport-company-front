@@ -1,22 +1,22 @@
 export class Order {
-    public orderId: String;
-    public title: String;
+    public orderId: string;
+    public title: string;
 
-    public sourceLatitude : Number;
-    public sourceLongitude : Number;
+    public sourceLatitude: number;
+    public sourceLongitude: number;
 
-    public destinationLatitude: Number;
-    public destinationLongitude: Number;
+    public destinationLatitude: number;
+    public destinationLongitude: number;
 
-    public volume: Number;
-    public weight: Number;
-    public plate: String;
-    public description : String
-    public deadline: String;
-    public admins_id: String;
-    public admins_name: String;
-    public driver_id: String;
-    public driver_name: String;
+    public volume: number;
+    public weight: number;
+    public plate: string;
+    public description: string;
+    public deadline: string;
+    public adminsId: string;
+    public adminsName: string;
+    public driverId: string;
+    public driverName: string;
 
-    public status: String;
+    public status: string;
 }

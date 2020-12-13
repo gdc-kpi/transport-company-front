@@ -1,10 +1,15 @@
 <div class="row container">
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
     <div class="row p-2">
-      <button *ngIf="isDriver" type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
-      <button *ngIf="isDriver" type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
-      <button *ngIf="isDriver" type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="isDriver" type="button" class="btn btn-outline-secondary p-1 mt-1">Failed</button>
+      <button *ngIf="isDriver" (click)="changeOrderStatus('CONFIRMED')"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
+      <button *ngIf="isDriver" (click)="changeOrderStatus('STARTED')"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
+      <button *ngIf="this.currentOrder.status == 'PENDING_CONFIRMATION'.toString()"
+              (click)="changeOrderStatus('REJECTED')" routerLink="/app/driver"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
+      <button *ngIf="isDriver" (click)="changeOrderStatus('FAILED')"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Failed</button>
     </div>
   </div>
   <div class="container-sm columns p-2 pl-5 col-md-8 offset-md-2">
@@ -12,7 +17,14 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
     <form class="form-horizontal m-1" role="form" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm.value)">
       <h2 id="cap" style="text-align: center;">Show Order</h2>
-            <div class="form-group">
+      <div id="map" class="map-container"> </div>
+      <dialog id="fromMapDialog" class="container-sm p-2">
+        <google-map width="100%" (mapClick)="fromClick($event)"></google-map>
+      </dialog>
+      <dialog id="toMapDialog" class="container-sm p-2">
+        <google-map width="100%" (mapClick)="toClick($event)"></google-map>
+      </dialog>
+      <div class="form-group">
               <label for="title" class="col-sm-12 control-label">Title</label>
               <div class="col-sm-12">
                 <input formControlName="title" class="form-control" name="title">
@@ -59,8 +71,8 @@
                   <div class="input-group">
                     <input formControlName="from" class="form-control" name="from">
                     <div class="input-group-append">
-                                        <span class="input-group-text" id="fromAppend"
-                                              onclick="document.getElementById('fromMapDialog').showModal();">Map</span>
+                      <span class="input-group-text" id="fromAppend"
+                            onclick="document.getElementById('fromMapDialog').showModal();">Map</span>
                     </div>
                   </div>
                   <div *ngIf="fromMessage" style="color: red;">
@@ -75,8 +87,8 @@
                     <input formControlName="to" class="form-control" name="to"
                            aria-describedby="toAppend">
                     <div class="input-group-append">
-                                        <span class="input-group-text" id="toAppend"
-                                              onclick="document.getElementById('toMapDialog').showModal();">Map</span>
+                      <span class="input-group-text" id="toAppend"
+                            onclick="document.getElementById('toMapDialog').showModal();">Map</span>
                     </div>
                   </div>
                   <div *ngIf="toMessage" style="color: red;">
@@ -119,11 +131,12 @@
             <button type="submit" class="btn btn-primary btn-block">Assign</button>
           </form>
   </div>
-        <dialog id="fromMapDialog" class="container-sm p-2">
-          <google-map width="100%" (mapClick)="fromClick($event)"></google-map>
-        </dialog>
-
-        <dialog id="toMapDialog" class="container-sm p-2">
-          <google-map width="100%" (mapClick)="toClick($event)"></google-map>
-        </dialog>
+  <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
+    <div class="p-2">
+      <button *ngIf="isDriver" routerLink="/app/driver"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Go back</button>
+      <button *ngIf="!isDriver" routerLink="/app/admin"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Go back</button>
+    </div>
+  </div>
 </div>
