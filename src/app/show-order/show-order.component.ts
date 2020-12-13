@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef } from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
@@ -68,12 +68,9 @@ export class ShowOrderComponent implements OnInit {
       drivername: new FormControl('')
     });
     this.currentUser = authenticationService.currentUserValue;
-    this.subscriptions.push(
-      this.orderService.getOrder(this.router.url.substring(12)).subscribe(
-        (result) => {
+    this.orderService.getOrder(this.router.url.substring(12)).subscribe((result) => {
           this.currentOrder = result;
-        },
-      ));
+        });
   }
 
   ngOnInit(): void {
@@ -143,7 +140,6 @@ export class ShowOrderComponent implements OnInit {
     this.drivernameMessage = null;
   }
 
-
   loadCarplates(): any {
     this.orderService.getDriversList().subscribe((result: Vehicle[]) => {
 
@@ -194,6 +190,9 @@ export class ShowOrderComponent implements OnInit {
     this.isDisabled = true;
     this.subscriptions.push(this.driverService.changeOrderStatus(this.currentOrder.orderId, status).subscribe());
     await this.delay(2000);
+    if (status === 'REJECTED'){
+      this.router.navigate(['/app/driver']);
+    }
     this.reload();
     this.isDisabled = false;
   }

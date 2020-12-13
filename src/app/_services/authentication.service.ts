@@ -22,7 +22,6 @@ export class AuthenticationService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       observe: 'response',
-
     })
   };
 
@@ -31,7 +30,6 @@ export class AuthenticationService {
       localStorage.getItem('userData') ? jwt_decode(localStorage.getItem('userData')) : undefined);
     this.currentUser = this.currentUserSubject.asObservable();
   }
-
 
   private static passwordHashing(password: string, iterations?: number): any {
     let crypt = sha1(password);

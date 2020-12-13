@@ -8,6 +8,7 @@ import {Order} from '../_models/order';
 @Injectable({
   providedIn: 'root'
 })
+
 export class OrderServiceService {
   public currentUser: Observable<User>;
   private url = environment.apiUrl + 'api/';
@@ -34,7 +35,7 @@ export class OrderServiceService {
   }
 
   getOrder(orderId: string): Observable<Order> {
-    return this.http.get<Order>(this.url + '/order/' + orderId,
+    return this.http.get<Order>(this.url + 'order/' + orderId,
       { headers: this.httpOptions.headers });
   }
 }
