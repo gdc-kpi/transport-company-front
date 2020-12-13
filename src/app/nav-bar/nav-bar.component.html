@@ -22,12 +22,12 @@
         </div>
         <div class="offset-3 row" *ngIf="isLoggedIn">
             <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
-                <a>
+                <a routerLink="/app/admin/vehicles">
             Cars
           </a>
             </div>
             <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
-                <a>
+                <a routerLink="/app/admin/drivers">
             Drivers
           </a>
             </div>

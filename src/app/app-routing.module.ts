@@ -12,7 +12,8 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import {CarCreatingComponent} from './car-creating/car-creating.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
-
+import { ShowVehiclesComponent } from './show-vehicles/show-vehicles.component';
+import { ShowDriversComponent } from './show-drivers/show-drivers.component';
 
 const routes: Routes = [
   { path: 'login', component: LogInComponent },
@@ -26,6 +27,8 @@ const routes: Routes = [
   { path: 'app/admin/order', component: OrderComponent },
   { path: 'app/admin/invite', component: InviteAdminComponent },
   { path: 'app/admin/car-creating', component: CarCreatingComponent },
+  { path: 'app/admin/vehicles', component: ShowVehiclesComponent },
+  { path: 'app/admin/drivers', component: ShowDriversComponent },
   { path: 'app/change-password', component: ChangePasswordComponent },
   { path: '**', redirectTo: 'login' }
 ];

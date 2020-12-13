@@ -23,8 +23,10 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import { CarCreatingComponent } from './car-creating/car-creating.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ShowVehiclesComponent } from './show-vehicles/show-vehicles.component';
+import { ShowDriversComponent } from './show-drivers/show-drivers.component';
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     NavBarComponent,
     LogInComponent,
@@ -39,7 +41,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     NewAdminPasswordComponent,
     CarCreatingComponent,
     ChangePasswordComponent,
-  ],
+    ShowVehiclesComponent,
+    ShowDriversComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
