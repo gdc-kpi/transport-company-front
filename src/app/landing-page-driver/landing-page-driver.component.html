@@ -1,6 +1,6 @@
 <div class="row container">
     <div class="columns p-2 pl-5 col-md-8 offset-md-2 ">
-        <div class="row">
+        <div id="cap" class="row">
             <h1>
                 {{currentUser.fullname}}
             </h1>
@@ -16,7 +16,8 @@
                         <div class="col-md">
                             Capacity:
                         </div>
-                        <div class="col-md offset-md-3"> {{ driversCar === undefined ? "??" : driversCar.capacity }} cubic meters
+                        <div class="col-md offset-md-3"> {{ driversCar === undefined ? "??" :
+                          driversCar.capacity }} cubic meters
                         </div>
                     </div>
                     <div class="row">
@@ -24,14 +25,16 @@
                             Load Capacity:
                         </div>
 
-                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" : driversCar.loadCapacity }} tons
+                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" :
+                          driversCar.loadCapacity }} tons
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md">
                             Fuel consumption:
                         </div>
-                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" : driversCar.fuelConsumption }} L/km
+                        <div class="col-md offset-md-3">{{ driversCar === undefined ? "??" :
+                          driversCar.fuelConsumption }} L/km
                         </div>
                     </div>
                 </div>
@@ -42,37 +45,100 @@
             <h1 class="mb-4">
                 Orders
             </h1>
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">To confirm</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Upcoming</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Finished</a>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent" style="min-height:15vh;">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"></div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
-            </div>
+            <mat-tab-group (selectedTabChange)="reload($event.index)">
+
+                <mat-tab label="To confirm">
+                    <div *ngIf="!confirmPendingArray || confirmPendingArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group" style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of confirmPendingArray ">
+                          <div class="row border-1 p-2">
+                            <div class="col-8">
+                              <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                              <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                              <div *ngIf="order.description">
+                                  <b>Description: </b>{{order.description}} <br/>
+                              </div>
+                            </div>
+                            <div class="col-md-auto align:center">
+                              <button type="button" class="btn btn-outline-primary btn-sm p-1 mt-1"
+                                      [disabled]="isDisabled"
+                                      (click)="reject(order)">Reject</button>
+                            </div>
+                            <div class="col-md-auto align:center">
+                              <button type="button" class="btn btn-outline-primary btn-sm p-1 mt-1"
+                                      [disabled]="isDisabled"
+                                      (click)="confirm(order)">Confirm</button>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+
+                <mat-tab label="Upcoming">
+                    <div *ngIf="!upcomingArray || upcomingArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of upcomingArray ">
+                          <div class="border-1 p-2">
+                            <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                            <b>Status:</b> {{order.status | titlecase}} <br/>
+                            <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                            <div *ngIf="order.description">
+                                <b>Description: </b>{{order.description}} <br/>
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+
+                <mat-tab label="Finished ">
+                    <div *ngIf="!finishedArray || finishedArray.length==0" class="mt-1">
+                        <h3>No orders found</h3>
+                    </div>
+                    <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+                        <li class="list-group-item" *ngFor="let order of finishedArray ">
+                          <div class="border-1 p-2">
+                              <h5><a routerLink="/app/orders/{{order.orderId}}">{{order.title}}</a></h5>
+                              <b>Date: </b> {{order.deadline | date:'fullDate'}} <br/>
+                              <div *ngIf="order.description">
+                                  <b>Description: </b>{{order.description}} <br/>
+                              </div>
+                          </div>
+                        </li>
+                    </ul>
+                </mat-tab>
+            </mat-tab-group>
+
         </div>
     </div>
     <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
         <div class="row p-2">
-            <button type="button" class="btn btn-outline-secondary p-1 mt-1">Change password</button>
-            <button type="button" class="btn btn-outline-secondary p-1 mt-1">Your Days Off</button>
-            <button type="button" onclick="document.getElementById('carplateDialog').showModal();" *ngIf="driversCar === undefined" class="btn btn-outline-secondary p-1 mt-1">Choose the Car</button>
+            <button type="button" class="btn btn-outline-secondary p-1 mt-1 w-100" routerLink="/app/change-password">Change password</button>
+            <button type="button" class="btn btn-outline-secondary p-1 mt-1 w-100" routerLink="/app/show-days-off">Days Off</button>
+            <button type="button" onclick="document.getElementById('carplateDialog').showModal();
+                    " *ngIf="driversCar === undefined"
+                    class="btn btn-outline-secondary p-1 mt-1 w-100">Choose the Car</button>
         </div>
     </div>
 </div>
 
 <dialog id="carplateDialog" class="container-sm p-2">
-    <form class="form-horizontal m-1" role="form" [formGroup]="carplateForm" (ngSubmit)="onCarplateSubmit(carplateForm.value)">
+    <form class="form-horizontal m-1" role="form"
+          [formGroup]="carplateForm" (ngSubmit)="onCarplateSubmit(carplateForm.value)">
         <div class="form-group">
-            <label for="carplate" class="col-sm-12 control-label">Choose a car plate</label>
+            <label class="col-sm-12 control-label">Choose a car plate</label>
             <div class="col-sm-12">
-                <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
+              <label for="carplate-select"></label><select id="carplate-select" formControlName="cars" class="form-control" name="cars">
+                    <option *ngFor="let car of cars" [value]="car">
+                        {{car}}
+                    </option>
+                </select>
             </div>
         </div>
-        <button type="submit" onclick="document.getElementById('carplateDialog').close();" class="btn btn-primary btn-block col-sm-6 offset-sm-3">Choose</button>
+        <button type="submit" onclick="document.getElementById('carplateDialog').close();
+                " class="btn btn-primary btn-block col-sm-6 offset-sm-3">Choose</button>
     </form>
 </dialog>

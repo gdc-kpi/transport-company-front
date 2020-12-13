@@ -1,0 +1,30 @@
+
+  <div class="row container">
+    <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
+      <div class="row p-2">
+        <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" routerLink="/app/show-days-off/days-off">Request Days Off</button>
+    </div>
+    </div>
+    <div class="columns plr-5 col-md-6 ">
+        <h2 id="cap" style="text-align: center;">Days Off</h2>
+        <ul class="no-bullets list-group" style="margin-bottom: 1em;">
+          <li class="list-group-item header">
+            <div class="row-12" style="display: flex;">
+              <h5 class="col-6">Date</h5>
+              <h5 class="col-6">Status</h5>
+            </div> 
+          </li>
+            <li class="list-group-item py-0" *ngFor="let dayoff of daysoff; let i = index" [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : 'LightSalmon'">
+             <div class="row-12 border-1" style="display: flex;">
+                <h6 class="col-6">{{dayoff.date}}</h6>
+                <h6 class="col-6">{{dayoff.status}}</h6>
+              </div> 
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-1 columns-2 ml-auto h-50 " style="max-height: min-content; ">
+      <div class="row p-2">
+        <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" (click)="routeBack()">Back</button>
+    </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../_models/user'
-import { environment } from '../../environments/environment'
+import { User } from '../_models/user';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 import * as sha1 from 'js-sha1';
@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 })
 
 export class AuthenticationService {
-
   public readonly PASSWORD_HASHING_ITERATIONS_AMOUNT = 5;
 
   private currentUserSubject: BehaviorSubject<User>;
@@ -34,7 +33,7 @@ export class AuthenticationService {
   }
 
 
-  private passwordHashing(password: string, iterations?: number) {
+  private static passwordHashing(password: string, iterations?: number): any {
     let crypt = sha1(password);
     for (let i = 0; i < iterations; ++i) {
       crypt = sha1(crypt);
@@ -42,19 +41,27 @@ export class AuthenticationService {
     return crypt;
   }
 
+  public get currentUserObservable(): Observable<User> {
+    return this.currentUserSubject.asObservable();
+  }
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
-  public get currentUserRole(): String {
+  public get currentUserRole(): string {
     return this.currentUserSubject.value.role;
+  }
+
+  public encryptedPassword(password: string): string {
+    return AuthenticationService.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT);
   }
 
   public logIn(email: string, password: string): Observable<User> {
 
     const userInfo = {
       email,
-      password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
+      password: AuthenticationService.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
     };
 
     return this.http.post<User>(this.url + 'log-in', JSON.stringify(userInfo), this.httpOptions).pipe(
@@ -63,7 +70,7 @@ export class AuthenticationService {
         localStorage.setItem('userData', tokenJSON.token);
         const userDecode: User = jwt_decode(tokenJSON.token);
         this.currentUserSubject.next(userDecode);
-        return userDecode; 
+        return userDecode;
       })
     );
   }
@@ -72,7 +79,7 @@ export class AuthenticationService {
     const userInfo = {
       email,
       fullname,
-      password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
+      password: AuthenticationService.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
     };
     return this.http.post<User>(this.url + 'sign-up', JSON.stringify(userInfo), this.httpOptions);
   }
@@ -88,17 +95,45 @@ export class AuthenticationService {
     return this.http.post<any>(this.recoveryUrl + 'send', JSON.stringify({email}),
       this.httpOptions);
   }
-      
+
   confirmPasswordReset(key: string): Observable<any> {
     return this.http.get<any>(this.recoveryUrl + 'confirm',
     { headers: this.httpOptions.headers, params: { key } });
   }
-      
+
 
   changePassword(recoveryLink: string, password: string): Observable<any> {
-    return this.http.patch<any>(this.recoveryUrl + 'change-password', JSON.stringify({recoveryLink, password: this.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)}),
+    return this.http.patch<any>(this.recoveryUrl + 'change-password',
+      JSON.stringify({recoveryLink, password: AuthenticationService.passwordHashing(password,
+          this.PASSWORD_HASHING_ITERATIONS_AMOUNT)}),
       this.httpOptions);
   }
-      
 
+
+
+  adminActivate(key: string, password: string): Observable<any> {
+    return this.http.patch<any>(this.url + 'admin-activate',
+      JSON.stringify({password: AuthenticationService.passwordHashing(password, this.PASSWORD_HASHING_ITERATIONS_AMOUNT), key}),
+    this.httpOptions);
+  }
+
+  signoutUser(): void {
+    localStorage.removeItem('userData');
+    this.currentUserSubject.next(null);
+  }
+
+  changeOldPassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.patch<any>(this.url + 'change-password',
+      JSON.stringify({
+        oldPassword: AuthenticationService.passwordHashing(oldPassword, this.PASSWORD_HASHING_ITERATIONS_AMOUNT),
+        newPassword: AuthenticationService.passwordHashing(newPassword, this.PASSWORD_HASHING_ITERATIONS_AMOUNT)
+      }),
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('userData'),
+          observe: 'response',
+        })
+      });
+  }
 }

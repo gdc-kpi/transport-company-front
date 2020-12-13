@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
+import { Order } from '../_models/order';
 
 import { AuthenticationService } from '../_services/authentication.service';
-import { DriverServiceService } from '../_services/driver-service.service'
+import { DriverServiceService } from '../_services/driver-service.service';
 @Component({
   selector: 'app-landing-page-driver',
   templateUrl: './landing-page-driver.component.html',
@@ -17,49 +18,145 @@ export class LandingPageDriverComponent implements OnInit {
   currentUser: User;
 
   carplateForm;
-  carplates: Vehicle[]=[];
+  cars = [];
+  carplates: Vehicle[] = [];
   select: HTMLSelectElement;
 
   driversCar: Vehicle;
+
+  upcomingArray: Order[];
+  confirmPendingArray: Order[];
+  finishedArray: Order[];
+
+  isDisabled = false;
+
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private driverService: DriverServiceService) { 
+              private router: Router,
+              private authenticationService: AuthenticationService,
+              private driverService: DriverServiceService) {
+      this.loadCarplates();
       this.currentUser = this.authenticationService.currentUserValue;
-      driverService.getDriversCar(this.currentUser.id).subscribe( (result) => {        
+      driverService.getDriversCar(this.currentUser.id).subscribe( (result) => {
          this.driversCar = result;
       },
       (error) => {
       });
 
-      this.carplateForm = this.formBuilder.group({
-        carplate: new FormControl(''),
-      }); 
+      this.getToConfirm();
+      this.getUpcoming();
+      this.getFinished();
   }
 
-  onCarplateSubmit(carplateData) {
-    
+  onCarplateSubmit(carData): void {
+    this.subscriptions.push(
+      this.driverService.chooseDriversCar(this.currentUser.id, carData.cars).subscribe(
+        () => {
+          this.driverService.getDriversCar(this.currentUser.id).subscribe( (result) => {
+            this.driversCar = result;
+          },
+          (error) => {
+          });
+        },
+        (error) => {
+          this.carplateForm.cars = null;
+        }
+      ));
   }
 
   ngOnInit(): void {
-    this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
-    this.loadCarplates();
+    if (this.currentUser == null ||
+      this.currentUser.role !== 'driver') {
+      this.router.navigate(['/']);
+    }
+    // this.select = document.getElementById("carplate-select") as HTMLSelectElement;
+    // this.loadCarplates();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
+  loadCarplates(): void {
+    this.carplateForm = this.formBuilder.group({
+      cars: [''],
+    });
 
-  loadCarplates() {
     this.driverService.getFreeCars().subscribe( (result: Vehicle[]) => {
-
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
-      for(let index in this.carplates) {        
-        this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+      for (const index in this.carplates) {
+        if (this.carplates.hasOwnProperty(index)) {
+          // this.select.options[this.select.options.length] = new
+          // Option(this.carplates[index].plate.toString(), this.carplates[index].plate.toString());
+          this.cars.push(this.carplates[index].plate.toString());
+        }
       }
     },
     (error) => {
-    });  
+    });
   }
 
+  reload(index: number): void {
+    switch (index) {
+      case 0:
+        this.getToConfirm();
+        break;
+      case 1:
+        this.getUpcoming();
+        break;
+      case 2:
+        this.getFinished();
+        break;
+    }
+  }
+
+  getFinished(): void {
+    this.subscriptions.push(
+      this.driverService.getOrders('finished', this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.finishedArray = result;
+        },
+      ));
+  }
+
+  getToConfirm(): void {
+    this.subscriptions.push(
+      this.driverService.getOrders('to-confirm', this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.confirmPendingArray = result;
+        },
+      ));
+  }
+
+  getUpcoming(): void {
+    this.subscriptions.push(
+      this.driverService.getOrders('upcoming', this.currentUser.id.toString()).subscribe(
+        (result) => {
+          this.upcomingArray = result;
+        },
+      ));
+  }
+
+  async reject(order): Promise<void> {
+    this.isDisabled = true;
+    this.subscriptions.push(this.driverService.rejectOrder(order.orderId).subscribe(
+      (result) => {
+        this.upcomingArray = result;
+      },
+    ));
+    await this.delay(2000);
+    this.reload(0);
+    this.isDisabled = false;
+  }
+
+  async confirm(order): Promise<void> {
+    this.isDisabled = true;
+    this.subscriptions.push(this.driverService.confirmOrder(order.orderId).subscribe(
+      (result) => {
+        this.upcomingArray = result;
+      },
+    ));
+    await this.delay(2000);
+    this.reload(0);
+    this.isDisabled = false;
+  }
+
+  delay(ms: number): any {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 }
