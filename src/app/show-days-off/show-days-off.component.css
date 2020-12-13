@@ -10,6 +10,7 @@ input[readonly]{
    background-color: white;
  }
 
-.list-group-header {
+.header {
    background-color: #E5E5E5;
+   border: 0;
 }
