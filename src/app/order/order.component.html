@@ -44,7 +44,7 @@
                 <label for="from" class="col-sm-12 control-label">From</label>
                 <div class="col-sm-12">
                     <div class="input-group">
-                        <input formControlName="from" class="form-control" name="from">
+                        <input formControlName="from" class="form-control" name="from" id="from">
                         <div class="input-group-append">
                             <span class="input-group-text" id="fromAppend" onclick="document.getElementById('fromMapDialog').showModal();">Map</span>
                         </div>
@@ -58,7 +58,7 @@
                 <label for="to" class="col-sm-12 control-label">To</label>
                 <div class="col-sm-12">
                     <div class="input-group">
-                        <input formControlName="to" class="form-control" name="to" aria-describedby="toAppend">
+                        <input formControlName="to" class="form-control" name="to" aria-describedby="toAppend" id="to">
                         <div class="input-group-append">
                             <span class="input-group-text" id="toAppend" onclick="document.getElementById('toMapDialog').showModal();">Map</span>
                         </div>
@@ -103,9 +103,9 @@
 </div>
 
 <dialog id="fromMapDialog" class="container-sm p-2">
-    <google-map width="100%" (mapClick)="fromClick($event)"></google-map>
+    <div id="mapFrom"></div>
 </dialog>
 
 <dialog id="toMapDialog" class="container-sm p-2">
-    <google-map width="100%" (mapClick)="toClick($event)"></google-map>
+    <div id="mapTo"></div>
 </dialog>
