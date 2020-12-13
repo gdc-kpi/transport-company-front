@@ -1,23 +1,19 @@
 <div class="row container">
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
-    <div class="row p-2">
-      <button *ngIf="isDriver" (click)="changeOrderStatus('CONFIRMED')"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
-      <button *ngIf="isDriver" (click)="changeOrderStatus('STARTED')"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('REJECTED')" routerLink="/app/driver"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('STARTED')" [disabled]="isDisabled"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('FINISHED')" [disabled]="isDisabled"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">End</button>
-      <button *ngIf="isDriver"
+    <div *ngIf="currentOrder" class="row p-2">
+      <button *ngIf="isDriver && currentOrder.status == 'PENDING_CONFIRMATION'"
               (click)="changeOrderStatus('CONFIRMED')" [disabled]="isDisabled"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
-      <button *ngIf="isDriver"
+      <button *ngIf="isDriver && currentOrder.status == 'PENDING_CONFIRMATION'"
+              (click)="changeOrderStatus('REJECTED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
+      <button *ngIf="isDriver && currentOrder.status == 'CONFIRMED'"
+              (click)="changeOrderStatus('STARTED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
+      <button *ngIf="isDriver && currentOrder.status == 'STARTED'"
+              (click)="changeOrderStatus('FINISHED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">End</button>
+      <button *ngIf="isDriver && currentOrder.status == 'STARTED'"
               (click)="changeOrderStatus('FAILED')" [disabled]="isDisabled"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Failed</button>
     </div>
@@ -34,6 +30,12 @@
       <dialog id="toMapDialog" class="container-sm p-2">
         <google-map width="100%" (mapClick)="toClick($event)"></google-map>
       </dialog>
+      <h5>{{currentOrder.title}}</h5>
+      <h5>Status: {{currentOrder.status}}.</h5>
+      <b>Date: </b> {{currentOrder.deadline | date:'fullDate'}} <br/>
+      <div *ngIf="currentOrder.description">
+        <b>Description: </b>{{currentOrder.description}} <br/>
+      </div>
       <div class="form-group">
               <label for="title" class="col-sm-12 control-label">Title</label>
               <div class="col-sm-12">

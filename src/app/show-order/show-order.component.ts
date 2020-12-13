@@ -71,17 +71,18 @@ export class ShowOrderComponent implements OnInit {
       drivername: new FormControl('')
     });
     this.currentUser = authenticationService.currentUserValue;
-    this.orderService.getOrder(this.orderId).subscribe((result) => {
-          this.currentOrder = result;
-        });
   }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       this.orderId = params.id;
+      this.orderService.getOrder(this.orderId).subscribe((result) => {
+        this.currentOrder = result;
+      });
+      /*
       this.subscriptions.push(
         this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-      );
+      );*/
       // console.log(params) //log the entire params object
       // console.log(params['id']) //log the value of id
     });
@@ -190,19 +191,17 @@ export class ShowOrderComponent implements OnInit {
     toDialog.close();
   }
 
-  reload(): void {
+  reload(): void {/*
     this.subscriptions.push(
       this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-    );
-    this.subscriptions.push(
-      this.orderService.getOrder(this.orderId).subscribe(
-        (result) => {
-          this.currentOrder = result;
-        },
-      ));
+    );*/
+    this.orderService.getOrder(this.orderId).subscribe((result) => {
+      this.currentOrder = result;
+    });
   }
 
   async changeOrderStatus(status: string): Promise<void> {
+    console.log(this.currentOrder.status);
     this.isDisabled = true;
     this.subscriptions.push(this.driverService.changeOrderStatus(this.orderId, status).subscribe());
     await this.delay(2000);
