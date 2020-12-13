@@ -20,7 +20,6 @@ import {ShowDaysOffComponent} from './show-days-off/show-days-off.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GoogleMapsModule } from '@angular/google-maps'
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import { CarCreatingComponent } from './car-creating/car-creating.component';
@@ -51,7 +50,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    GoogleMapsModule,
     MatFormFieldModule,
     BrowserModule,
      FormsModule,
