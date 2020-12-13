@@ -88,11 +88,7 @@ export class ShowOrderComponent implements OnInit {
     });
     if (this.currentUser == null) {
       this.router.navigate(['/']);
-    } else if (this.currentUser.role === 'admin') {
-      this.isDriver = false;
-    } else{
-      this.isDriver = true;
-    }
+    } else { this.isDriver = this.currentUser.role !== 'admin'; }
     // mapboxgl.accessToken = environment.mapbox.accessToken;
     Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken')
       .set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
@@ -165,7 +161,7 @@ export class ShowOrderComponent implements OnInit {
           }
           this.updateDriverName();
         },
-        (error) => {
+        () => {
         });
     }
   }
@@ -201,12 +197,11 @@ export class ShowOrderComponent implements OnInit {
   }
 
   async changeOrderStatus(status: string): Promise<void> {
-    console.log(this.currentOrder.status);
     this.isDisabled = true;
     this.subscriptions.push(this.driverService.changeOrderStatus(this.orderId, status).subscribe());
     await this.delay(2000);
     if (status === 'REJECTED'){
-      this.router.navigate(['/app/driver']);
+      await this.router.navigate(['/app/driver']);
     }
     this.reload();
     this.isDisabled = false;
