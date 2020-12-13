@@ -13,6 +13,7 @@ import { DriverServiceService } from '../_services/driver-service.service';
   templateUrl: './landing-page-driver.component.html',
   styleUrls: ['./landing-page-driver.component.css']
 })
+
 export class LandingPageDriverComponent implements OnInit {
   subscriptions: Subscription[] = [];
   currentUser: User;
@@ -134,7 +135,7 @@ export class LandingPageDriverComponent implements OnInit {
 
   async changeOrderStatus(order, status: string): Promise<void> {
     this.isDisabled = true;
-    this.subscriptions.push(this.driverService.changeOrderStatus(order.orderId, status).subscribe());
+    this.driverService.changeOrderStatus(order.orderId, status).subscribe();
     await this.delay(2000);
     this.reload(0);
     this.isDisabled = false;
