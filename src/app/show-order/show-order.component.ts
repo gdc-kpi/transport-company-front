@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewChild, ElementRef } from '@angular/core';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
-import {Order} from '../_models/order';
+import { Order } from '../_models/order';
 import * as mapboxgl from 'mapbox-gl';
 
 const environment = {
@@ -45,8 +45,8 @@ export class ShowOrderComponent implements OnInit {
 
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
-  lat = 37.75;
-  lng = -122.41;
+  lat = 50.45;
+  lng = 30.42;
 
   isDriver: boolean;
   isDisabled = false;
@@ -54,11 +54,11 @@ export class ShowOrderComponent implements OnInit {
   private routeSub: Subscription;
 
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private orderService: OrderServiceService,
-              private driverService: DriverServiceService,
-              private authenticationService: AuthenticationService,
-              private route: ActivatedRoute) {
+    private router: Router,
+    private orderService: OrderServiceService,
+    private driverService: DriverServiceService,
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -72,24 +72,24 @@ export class ShowOrderComponent implements OnInit {
     });
     this.currentUser = authenticationService.currentUserValue;
     this.orderService.getOrder(this.orderId).subscribe((result) => {
-          this.currentOrder = result;
-        });
+      this.currentOrder = result;
+    });
+    this.route.params.subscribe(params => {
+      this.orderId = params.id;
+      // this.subscriptions.push(
+      //   this.orderService.getPath(this.orderId).subscribe(res => {
+      //     console.log(res)
+      //   })
+      // );
+    });
   }
 
   ngOnInit(): void {
-    this.routeSub = this.route.params.subscribe(params => {
-      this.orderId = params.id;
-      this.subscriptions.push(
-        this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-      );
-      // console.log(params) //log the entire params object
-      // console.log(params['id']) //log the value of id
-    });
     if (this.currentUser == null) {
       this.router.navigate(['/']);
     } else if (this.currentUser.role === 'admin') {
       this.isDriver = false;
-    } else{
+    } else {
       this.isDriver = true;
     }
     // mapboxgl.accessToken = environment.mapbox.accessToken;
@@ -98,10 +98,45 @@ export class ShowOrderComponent implements OnInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: this.style,
-      zoom: 13,
+      zoom: 10,
       center: [this.lng, this.lat]
     });
     this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.on('load', () => {
+      this.orderService.getPath(this.orderId).subscribe(res => {
+        const minMax = res.reduce((acc, cur) => [
+          [Math.min(acc[0][0], cur["longitude"]), Math.min(acc[0][1], cur["latitude"])], 
+          [Math.max(acc[1][0], cur["longitude"]), Math.max(acc[1][1], cur["latitude"])]
+        ], [[180, 180], [-180, -180]]);
+        const center = [(minMax[0][0] + minMax[1][0])/2, (minMax[0][1] + minMax[1][1])/2];
+        this.map.setCenter([center[0], center[1]]);
+        this.map.setZoom(Math.log2(180/(minMax[1][0] - minMax[0][0])));
+        this.map.addSource('route', {
+          'type': 'geojson',
+          'data': {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'LineString',
+              'coordinates': res.map(elem => [elem["longitude"], elem["latitude"]])
+            }
+          }
+        });
+        this.map.addLayer({
+          'id': 'route',
+          'type': 'line',
+          'source': 'route',
+          'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          'paint': {
+            'line-color': '#FF0000',
+            'line-width': 5
+          }
+        });
+      })
+    });
     this.select = document.getElementById('carplate-select') as HTMLSelectElement;
     this.loadCarplates();
   }
@@ -155,15 +190,15 @@ export class ShowOrderComponent implements OnInit {
     if (this.currentUser.role === 'admin') {
       this.orderService.getDriversList().subscribe((result: Vehicle[]) => {
 
-          result.forEach(val => this.carplates.push(Object.assign({}, val)));
-          for (const index in this.carplates) {
-            if (this.carplates.hasOwnProperty(index)) {
-              this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
-                this.carplates[index].plate.toString());
-            }
+        result.forEach(val => this.carplates.push(Object.assign({}, val)));
+        for (const index in this.carplates) {
+          if (this.carplates.hasOwnProperty(index)) {
+            this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
+              this.carplates[index].plate.toString());
           }
-          this.updateDriverName();
-        },
+        }
+        this.updateDriverName();
+      },
         (error) => {
         });
     }
@@ -206,7 +241,7 @@ export class ShowOrderComponent implements OnInit {
     this.isDisabled = true;
     this.subscriptions.push(this.driverService.changeOrderStatus(this.orderId, status).subscribe());
     await this.delay(2000);
-    if (status === 'REJECTED'){
+    if (status === 'REJECTED') {
       this.router.navigate(['/app/driver']);
     }
     this.reload();
@@ -214,6 +249,6 @@ export class ShowOrderComponent implements OnInit {
   }
 
   delay(ms: number): any {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
