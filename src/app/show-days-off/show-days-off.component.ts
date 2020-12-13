@@ -18,8 +18,10 @@ export class ShowDaysOffComponent implements OnInit {
   @ViewChild('mapContainer', {static: false}) gmap: ElementRef;
 
   currentUser: User;
-  daysoff: Dayoff[]=[];
+  daysoff: Dayoff[] = [];
 
+  isDisabled = false;
+  isAdmin;
 
   constructor(private router: Router,
               private driverService: DriverServiceService,
@@ -32,19 +34,21 @@ export class ShowDaysOffComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
+    this.isAdmin = this.currentUser.role === 'admin';
+
     this.driverService.getDaysOff(this.currentUser.id).subscribe( (result: any) => {
           result.forEach(val => {
             this.daysoff.push(
-              {date: val.second.split('T')[0], status: !!val.first ? 'Approved' : 'Pending'}
+              {date: val.second.split('T')[0], status: !!val.first ? 'Approved' : 'Pending',
+                driverName: this.currentUser.fullname}
               );
           });
-
         },
         (error) => {
         });
   }
 
-  routeBack() {
+  routeBack(): void {
     if (this.authenticationService.currentUserRole === 'driver') {
       this.router.navigate(['/app/driver']);
     } else {

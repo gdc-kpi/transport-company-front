@@ -1,24 +1,39 @@
-
-  <div class="row container">
+<div class="row container">
     <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
-      <div class="row p-2">
-        <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1" routerLink="/app/show-days-off/days-off">Request Days Off</button>
-    </div>
+      <div *ngIf="!isAdmin" class="row p-2">
+        <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1"
+                routerLink="/app/show-days-off/days-off">Request Days Off</button>
+      </div>
     </div>
     <div class="columns plr-5 col-md-6 ">
         <h2 id="cap" style="text-align: center;">Days Off</h2>
         <ul class="no-bullets list-group" style="margin-bottom: 1em;">
           <li class="list-group-item header">
             <div class="row-12" style="display: flex;">
-              <h5 class="col-6">Date</h5>
-              <h5 class="col-6">Status</h5>
-            </div> 
+              <h5 *ngIf="isAdmin" class="col-sm">Driver</h5>
+              <h5 class="col-sm">Date</h5>
+              <h5 class="col-sm">Status</h5>
+              <h5 *ngIf="isAdmin" class="col-sm">&nbsp;&nbsp;&nbsp;Reject</h5>
+              <h5 *ngIf="isAdmin" class="col-sm">&nbsp;&nbsp;Confirm</h5>
+            </div>
           </li>
-            <li class="list-group-item py-0" *ngFor="let dayoff of daysoff; let i = index" [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : 'LightSalmon'">
-             <div class="row-12 border-1" style="display: flex;">
-                <h6 class="col-6">{{dayoff.date}}</h6>
-                <h6 class="col-6">{{dayoff.status}}</h6>
-              </div> 
+            <li class="list-group-item py-0" *ngFor="let dayoff of daysoff; let i = index"
+                [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : 'LightSalmon'">
+              <div class="row-12 border-1" style="display: flex;">
+                <h6 *ngIf="isAdmin" class="col-sm">{{dayoff.driverName}}</h6>
+                <h6 class="col-sm">{{dayoff.date}}</h6>
+                <h6 class="col-sm">{{dayoff.status}}</h6>
+                <div *ngIf="isAdmin" class="col-md-auto align:center">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-2 ml-1"
+                          [disabled]="isDisabled"
+                          (click)="changeDayOffStatus(dayoff, false)">Reject</button>
+                </div>
+                <div *ngIf="isAdmin" class="col-md-auto align:center">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-2 mr-1"
+                          [disabled]="isDisabled"
+                          (click)="changeDayOffStatus(dayoff, true)">Confirm</button>
+                </div>
+              </div>
             </li>
         </ul>
     </div>
