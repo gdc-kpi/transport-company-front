@@ -25,9 +25,11 @@ import { NewAdminPasswordComponent } from './new-admin-password/new-admin-passwo
 import { CarCreatingComponent } from './car-creating/car-creating.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import {ShowOrderComponent} from './show-order/show-order.component';
+import { ShowVehiclesComponent } from './show-vehicles/show-vehicles.component';
+import { ShowDriversComponent } from './show-drivers/show-drivers.component';
 
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     NavBarComponent,
     LogInComponent,
@@ -42,6 +44,8 @@ import {ShowOrderComponent} from './show-order/show-order.component';
     NewAdminPasswordComponent,
     CarCreatingComponent,
     ChangePasswordComponent,
+    ShowVehiclesComponent,
+    ShowDriversComponent,
     ShowDaysOffComponent,
     DaysOffComponent,
     ShowOrderComponent

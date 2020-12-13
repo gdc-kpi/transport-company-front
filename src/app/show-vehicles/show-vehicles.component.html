@@ -1,0 +1,25 @@
+<div class="row container">
+    <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
+  
+    </div>
+  
+    <div class="columns plr-5 col-md-6 p-2">
+      <ul class="no-bullets list-group " style="margin-bottom: 1em;">
+        <li class="list-group-item" *ngFor="let vehicle of vehicles">
+          <div class="border-1 p-2">
+            <h5><a>{{vehicle.plate}}</a></h5>
+            <b>Driver:</b> {{vehicle.fullname}} <br/>
+            <b>Capacity:</b> {{vehicle.capacity}} <br/>
+            <b>Carrying:</b> {{vehicle.load_capacity}} <br/>
+            <b>Fuel consumption:</b> {{vehicle.fuel_consumption}} <br/>
+          </div>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="col-md-1 columns-2 ml-auto h-50 " style="max-height: min-content; ">
+      <div class="row p-2">
+        <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1"  (click)="backClicked();">Back</button>
+    </div>
+    </div>
+  </div>

@@ -13,6 +13,8 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import {CarCreatingComponent} from './car-creating/car-creating.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
+import { ShowVehiclesComponent } from './show-vehicles/show-vehicles.component';
+import { ShowDriversComponent } from './show-drivers/show-drivers.component';
 import {ShowDaysOffComponent} from './show-days-off/show-days-off.component';
 import {DaysOffComponent} from './days-off/days-off.component';
 
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'app/admin/order', component: OrderComponent },
   { path: 'app/admin/invite', component: InviteAdminComponent },
   { path: 'app/admin/car-creating', component: CarCreatingComponent },
+  { path: 'app/admin/vehicles', component: ShowVehiclesComponent },
+  { path: 'app/admin/drivers', component: ShowDriversComponent },
   { path: 'app/change-password', component: ChangePasswordComponent },
   { path: 'app/show-days-off', component: ShowDaysOffComponent },
   { path: 'app/show-days-off/days-off', component: DaysOffComponent },

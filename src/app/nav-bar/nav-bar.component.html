@@ -1,10 +1,10 @@
 <div class="container pt-2 pb-1">
     <div class="row">
-        <a class="col-2" routerLink="/">
+        <a class="col-2" routerLink="{{link}}">
             <img class="img-fluid" src="assets/img/logo.png" style="max-height:3em">
         </a>
         <div class="d-flex offset-3">
-            <a id="cap" style="text-decoration: none; font-size: larger;" routerLink="/">
+            <a id="cap" style="text-decoration: none; font-size: larger;" routerLink="{{link}}">
           KyivTransComp
         </a>
         </div>
@@ -22,12 +22,12 @@
         </div>
         <div class="offset-3 row" *ngIf="isLoggedIn">
             <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
-                <a>
+                <a routerLink="/app/admin/vehicles">
             Cars
           </a>
             </div>
             <div class="col-4" *ngIf="isAdmin" style="display: inline-block;">
-                <a>
+                <a routerLink="/app/admin/drivers">
             Drivers
           </a>
             </div>
