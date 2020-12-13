@@ -104,15 +104,7 @@ export class OrderComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-  
-  toClick(event: google.maps.MouseEvent) {
-    this.orderForm.patchValue({to: event.latLng.toString()});
-    let toDialog = document.getElementById("toMapDialog") as HTMLDialogElement;
-    toDialog.close();
-  }
-
-  
+  }  
 
   loadCarplates(orderData) {
     this.clearCarplates();
