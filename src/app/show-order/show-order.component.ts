@@ -71,27 +71,24 @@ export class ShowOrderComponent implements OnInit {
       drivername: new FormControl('')
     });
     this.currentUser = authenticationService.currentUserValue;
-    this.orderService.getOrder(this.orderId).subscribe((result) => {
-      this.currentOrder = result;
-    });
-    this.route.params.subscribe(params => {
-      this.orderId = params.id;
-      // this.subscriptions.push(
-      //   this.orderService.getPath(this.orderId).subscribe(res => {
-      //     console.log(res)
-      //   })
-      // );
-    });
   }
 
   ngOnInit(): void {
+    this.routeSub = this.route.params.subscribe(params => {
+      this.orderId = params.id;
+      this.orderService.getOrder(this.orderId).subscribe((result) => {
+        this.currentOrder = result;
+      });
+      /*
+      this.subscriptions.push(
+        this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
+      );*/
+      // console.log(params) //log the entire params object
+      // console.log(params['id']) //log the value of id
+    });
     if (this.currentUser == null) {
       this.router.navigate(['/']);
-    } else if (this.currentUser.role === 'admin') {
-      this.isDriver = false;
-    } else {
-      this.isDriver = true;
-    }
+    } else { this.isDriver = this.currentUser.role !== 'admin'; }
     // mapboxgl.accessToken = environment.mapbox.accessToken;
     Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken')
       .set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
@@ -225,16 +222,13 @@ export class ShowOrderComponent implements OnInit {
     toDialog.close();
   }
 
-  reload(): void {
+  reload(): void {/*
     this.subscriptions.push(
       this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-    );
-    this.subscriptions.push(
-      this.orderService.getOrder(this.orderId).subscribe(
-        (result) => {
-          this.currentOrder = result;
-        },
-      ));
+    );*/
+    this.orderService.getOrder(this.orderId).subscribe((result) => {
+      this.currentOrder = result;
+    });
   }
 
   async changeOrderStatus(status: string): Promise<void> {

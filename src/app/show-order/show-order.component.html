@@ -1,32 +1,30 @@
 <div class="row container">
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
-    <div class="row p-2">
-      <button *ngIf="isDriver" (click)="changeOrderStatus('CONFIRMED')"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
-      <button *ngIf="isDriver" (click)="changeOrderStatus('STARTED')"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('REJECTED')" routerLink="/app/driver"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('STARTED')" [disabled]="isDisabled"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="isDriver"
-              (click)="changeOrderStatus('FINISHED')" [disabled]="isDisabled"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">End</button>
-      <button *ngIf="isDriver"
+    <div *ngIf="isDriver && currentOrder">
+      <div *ngIf="currentOrder.status !== 'FINISHED' && currentOrder.status !== 'FAILED'" class="row p-2">
+        <button *ngIf="currentOrder.status == 'PENDING_CONFIRMATION'"
               (click)="changeOrderStatus('CONFIRMED')" [disabled]="isDisabled"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
-      <button *ngIf="isDriver"
+        <button *ngIf="currentOrder.status == 'PENDING_CONFIRMATION'"
+              (click)="changeOrderStatus('REJECTED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
+        <button *ngIf="currentOrder.status == 'CONFIRMED'"
+              (click)="changeOrderStatus('STARTED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
+        <button *ngIf="currentOrder.status == 'STARTED'"
+              (click)="changeOrderStatus('FINISHED')" [disabled]="isDisabled"
+              type="button" class="btn btn-outline-secondary p-1 mt-1">End</button>
+        <button *ngIf="currentOrder.status == 'STARTED'"
               (click)="changeOrderStatus('FAILED')" [disabled]="isDisabled"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Failed</button>
+      </div>
     </div>
   </div>
-  <div class="container-sm columns p-2 pl-5 col-md-8 offset-md-2">
+  <div class="container-sm columns p-2 col-md-8 offset-md-2">
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
     <form class="form-horizontal m-1" role="form" [formGroup]="orderForm" (ngSubmit)="onSubmit(orderForm.value)">
-      <h2 id="cap" style="text-align: center;">Show Order</h2>
+      <h2 *ngIf="currentOrder" id="cap" style="text-align: center;">{{currentOrder.title}}</h2>
       <div id="map" class="map-container"> </div>
       <dialog id="fromMapDialog" class="container-sm p-2">
         <google-map width="100%" (mapClick)="fromClick($event)"></google-map>
@@ -34,112 +32,42 @@
       <dialog id="toMapDialog" class="container-sm p-2">
         <google-map width="100%" (mapClick)="toClick($event)"></google-map>
       </dialog>
-      <div class="form-group">
-              <label for="title" class="col-sm-12 control-label">Title</label>
-              <div class="col-sm-12">
-                <input formControlName="title" class="form-control" name="title">
-                <div *ngIf="titleMessage" style="color: #ff0000;">
-                  {{titleMessage}}
-                </div>
+      <div *ngIf="currentOrder" class="border-1 mt-3 p-2">
+        <b>Status: </b>{{currentOrder.status.replace('_',' ').toLowerCase()}}<br/>
+        <b>Date: </b> {{currentOrder.deadline | date:'fullDate'}} <br/>
+        <b>Weight: </b>{{currentOrder.weight}} <br/>
+        <b>Volume: </b>{{currentOrder.volume}} <br/>
+        <div *ngIf="currentOrder.description">
+          <b>Description: </b>{{currentOrder.description}} <br/>
+        </div>
+      </div>
+
+      <div *ngIf="!isDriver" class="form-group">
+        <div class="form-row">
+          <div class="col-sm-6 form-group">
+            <label for="carplate" class="col-sm-12 control-label">Car plate</label>
+            <div class="col-sm-12">
+              <label for="carplate-select"></label>
+              <select id="carplate-select" formControlName="carplate" class="form-control"
+                                                           name="carplate"></select>
+              <div *ngIf="carplateMessage" style="color: red;">
+                {{carplateMessage}}
               </div>
             </div>
-            <div class="form-group">
-              <label for="descriprion" class="col-sm-12 control-label">Description</label>
-              <div class="col-sm-12">
-                <input formControlName="description" class="form-control" name="description">
-                <div *ngIf="descriptionMessage" style="color: red;">
-                  {{descriptionMessage}}
-                </div>
-              </div>
+          </div>
+          <label for="drivername" class="col-sm-12 control-label">Driver's full name</label>
+          <div class="col-sm-12">
+            <label>
+              <input formControlName="drivername" class="form-control" name="drivername" readonly>
+            </label>
+            <div *ngIf="drivernameMessage" style="color: red;">
+              {{drivernameMessage}}
             </div>
-            <div class="form-row">
-              <div class="col-sm-6 form-group">
-                <label for="weight" class="col-sm-12 control-label">Weight</label>
-                <div class="col-sm-12">
-                  <input formControlName="weight" class="form-control" name="weight" type="number"
-                         min="0">
-                  <div *ngIf="weightMessage" style="color: red;">
-                    {{weightMessage}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 form-group">
-                <label for="volume" class="col-sm-12 control-label">Volume</label>
-                <div class="col-sm-12">
-                  <input formControlName="volume" class="form-control" name="volume" type="number"
-                         min="0">
-                  <div *ngIf="volumeMessage" style="color: red;">
-                    {{volumeMessage}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="col-sm-6 form-group">
-                <label for="from" class="col-sm-12 control-label">From</label>
-                <div class="col-sm-12">
-                  <div class="input-group">
-                    <input formControlName="from" class="form-control" name="from">
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="fromAppend"
-                            onclick="document.getElementById('fromMapDialog').showModal();">Map</span>
-                    </div>
-                  </div>
-                  <div *ngIf="fromMessage" style="color: red;">
-                    {{fromMessage}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 form-group">
-                <label for="to" class="col-sm-12 control-label">To</label>
-                <div class="col-sm-12">
-                  <div class="input-group">
-                    <input formControlName="to" class="form-control" name="to"
-                           aria-describedby="toAppend">
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="toAppend"
-                            onclick="document.getElementById('toMapDialog').showModal();">Map</span>
-                    </div>
-                  </div>
-                  <div *ngIf="toMessage" style="color: red;">
-                    {{toMessage}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="col-sm-6 form-group">
-                <label for="carplate" class="col-sm-12 control-label">Car plate</label>
-                <div class="col-sm-12">
-                  <select id="carplate-select" formControlName="carplate" class="form-control"
-                          name="carplate"></select>
-                  <div *ngIf="carplateMessage" style="color: red;">
-                    {{carplateMessage}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 form-group">
-                <label for="deadline" class="col-sm-12 control-label">Deadline</label>
-                <div class="col-sm-12">
-                  <input formControlName="deadline" type="datetime-local" class="form-control"
-                         name="deadline">
-                  <div *ngIf="deadlineMessage" style="color: red;">
-                    {{deadlineMessage}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="drivername" class="col-sm-12 control-label">Driver's full name</label>
-              <div class="col-sm-12">
-                <input formControlName="drivername" class="form-control" name="drivername" readonly>
-                <div *ngIf="drivernameMessage" style="color: red;">
-                  {{drivernameMessage}}
-                </div>
-              </div>
+          </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Assign</button>
-          </form>
+      </div>
+    </form>
   </div>
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
     <div class="p-2">
