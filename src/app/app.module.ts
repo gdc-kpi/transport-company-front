@@ -14,12 +14,13 @@ import { ChangeForgottenPasswordComponent } from './change-forgotten-password/ch
 import { LandingPageDriverComponent } from './landing-page-driver/landing-page-driver.component';
 import { LandingPageAdminComponent } from './landing-page-admin/landing-page-admin.component';
 import { OrderComponent } from './order/order.component';
+import {DaysOffComponent} from './days-off/days-off.component';
 import {ShowDaysOffComponent} from './show-days-off/show-days-off.component';
-import { GoogleMapsModule } from '@angular/google-maps'
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GoogleMapsModule } from '@angular/google-maps'
 import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import { CarCreatingComponent } from './car-creating/car-creating.component';
@@ -41,7 +42,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     NewAdminPasswordComponent,
     CarCreatingComponent,
     ChangePasswordComponent,
-    ShowDaysOffComponent
+    ShowDaysOffComponent,
+    DaysOffComponent
   ],
   imports: [
     BrowserModule,

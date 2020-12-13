@@ -28,8 +28,7 @@ export class ShowDaysOffComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.currentUser == null ||
-      this.currentUser.role !== 'driver') {
+    if (this.currentUser == null) {
       this.router.navigate(['/']);
     }
 
@@ -43,6 +42,14 @@ export class ShowDaysOffComponent implements OnInit {
         },
         (error) => {
         });
+  }
+
+  routeBack() {
+    if (this.authenticationService.currentUserRole === 'driver') {
+      this.router.navigate(['/app/driver']);
+    } else {
+      this.router.navigate(['/app/admin']);
+    }
   }
 
   ngOnDestroy() {

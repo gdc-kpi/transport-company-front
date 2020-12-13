@@ -6,12 +6,9 @@ import { OrderServiceService } from '../_services/order-service.service';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import { AdminService } from '../_services/admin-service.service';
-import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
-import { concatAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order',

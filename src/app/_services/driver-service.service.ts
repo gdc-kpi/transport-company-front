@@ -64,7 +64,7 @@ export class DriverServiceService {
       { headers: this.httpOptions.headers });
   }
 
-  createOrder(days: Date[]): Observable<any> {
+  setDaysOff(days: Date[]): Observable<any> {
     return this.http.post<any>(this.url + 'set-days-off', JSON.stringify(days), this.httpOptions);
   }
 }
