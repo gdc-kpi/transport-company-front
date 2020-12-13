@@ -58,4 +58,13 @@ export class DriverServiceService {
     return this.http.patch(environment.apiUrl + 'api/order/status/' + orderId + '?status=CONFIRMED',
       {}, { headers: this.httpOptions.headers });
   }
+
+  getDaysOff(driverid: string): Observable<any> {
+    return this.http.get<any>(this.url + driverid + '/days-off',
+      { headers: this.httpOptions.headers });
+  }
+
+  createOrder(days: Date[]): Observable<any> {
+    return this.http.post<any>(this.url + 'set-days-off', JSON.stringify(days), this.httpOptions);
+  }
 }

@@ -1,14 +1,16 @@
 <div class="container-sm p-2">
     <h2 id="cap" style="text-align: center;">Days Off</h2>
-      <div style="display: flex; justify-content: space-evenly;">
-        <h5>Date</h5>
-        <h5>Status</h5>
-      </div> 
-      <ul class="no-bullets list-group" style="margin-bottom: 1em;">
-        <li class="list-group-item py-0" *ngFor="let dayoff of daysoff">
-         <div class="border-1" style="display: flex; justify-content: space-evenly;">
-            <h6>{{dayoff.date}}</h6>
-            <h6>{{dayoff.approved}}</h6>
+    <ul class="no-bullets list-group" style="margin-bottom: 1em;">
+      <li class="list-group-item header">
+        <div class="row-12 p-1" style="display: flex;">
+          <h5 class="col-6">Date</h5>
+          <h5 class="col-6">Status</h5>
+        </div> 
+      </li>
+        <li class="list-group-item py-0" *ngFor="let dayoff of daysoff; let i = index" [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : 'LightSalmon'">
+         <div class="row-12 border-1" style="display: flex;">
+            <h6 class="col-6">{{dayoff.date}}</h6>
+            <h6 class="col-6">{{dayoff.status}}</h6>
           </div> 
         </li>
     </ul>

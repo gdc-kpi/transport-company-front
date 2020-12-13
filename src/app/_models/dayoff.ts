@@ -1,4 +1,4 @@
 export class Dayoff {
-    public date: String
-    public approved: String;
+    public date: String;
+    public status: String;
 }
