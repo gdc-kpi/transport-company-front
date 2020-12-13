@@ -1,4 +1,3 @@
-/// <reference types="@types/googlemaps" />
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../_services/authentication.service';
@@ -9,6 +8,13 @@ import { Subscription } from 'rxjs';
 import { User } from '../_models/user';
 import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
+import * as mapboxgl from 'mapbox-gl';
+
+const environment = {
+  mapbox: {
+    accessToken: 'pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w'
+  }
+};
 
 @Component({
   selector: 'app-order',
@@ -34,6 +40,11 @@ export class OrderComponent implements OnInit {
   deadlineMessage: string;
   drivernameMessage: string;
 
+  mapFrom: mapboxgl.Map;
+  mapTo: mapboxgl.Map;
+  style = 'mapbox://styles/mapbox/streets-v11';
+  lng = 30.5;
+  lat = 50.5;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -58,25 +69,42 @@ export class OrderComponent implements OnInit {
       this.currentUser.role !== 'admin') {
       this.router.navigate(['/']);
   }
+
+  Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken')
+      .set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
+    this.mapFrom = new mapboxgl.Map({
+      container: 'mapFrom',
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat]
+    });
+    this.mapTo = new mapboxgl.Map({
+      container: 'mapTo',
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat]
+    });
+    this.mapFrom.addControl(new mapboxgl.NavigationControl());
+    this.mapTo.addControl(new mapboxgl.NavigationControl());
+
+    this.mapFrom.on('click',  (e) => {
+      this.orderForm.patchValue({from: e.lngLat.toString().split('t')[1]});
+      let fromDialog = document.getElementById("fromMapDialog") as HTMLDialogElement;
+      fromDialog.close();
+    });
+    this.mapTo.on('click',  (e) => {
+      this.orderForm.patchValue({to: e.lngLat.toString().split('t')[1]});
+      let fromDialog = document.getElementById("toMapDialog") as HTMLDialogElement;
+      fromDialog.close();
+    });
+       
     this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
     this.loadCarplates(this.orderForm.value);
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-  fromClick(event: google.maps.MouseEvent) {
-    this.orderForm.patchValue({from: event.latLng.toString()});
-    let fromDialog = document.getElementById("fromMapDialog") as HTMLDialogElement;
-    fromDialog.close();
-  }
-  
-  toClick(event: google.maps.MouseEvent) {
-    this.orderForm.patchValue({to: event.latLng.toString()});
-    let toDialog = document.getElementById("toMapDialog") as HTMLDialogElement;
-    toDialog.close();
-  }
+  }  
 
   loadCarplates(orderData) {
     this.clearCarplates();
