@@ -13,6 +13,8 @@ export class NavBarComponent implements OnInit {
   currentUser: Observable<User>;
   isLoggedIn: boolean;
   isAdmin: boolean;
+  link: string = '/'
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService) { }
@@ -22,9 +24,8 @@ export class NavBarComponent implements OnInit {
     this.currentUser = this.authenticationService.currentUserObservable;
     this.currentUser.subscribe(val => {
       this.isLoggedIn = val != null;
-      console.log(val.role)
       this.isAdmin = val != undefined && val != null && val.role == "admin"
-      console.log(this.isAdmin)
+      this.link = (!this.isLoggedIn) ? "/" : (this.isAdmin) ? '/app/admin' : '/app/driver'
     })
 
   }
