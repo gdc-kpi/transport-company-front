@@ -7,13 +7,14 @@ import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
+import {Order} from '../_models/order';
 import * as mapboxgl from 'mapbox-gl';
 
 const environment = {
   mapbox: {
     accessToken: 'pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w'
   }
-}
+};
 
 @Component({
   selector: 'app-order',
@@ -25,6 +26,7 @@ export class ShowOrderComponent implements OnInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
 
   currentUser: User;
+  currentOrder: Order;
   orderForm: FormGroup;
   carplates: Vehicle[] = [];
   select: HTMLSelectElement;
@@ -47,9 +49,9 @@ export class ShowOrderComponent implements OnInit {
   isDriver: boolean;
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private orderService: OrderServiceService,
-    private authenticationService: AuthenticationService) {
+              private router: Router,
+              private orderService: OrderServiceService,
+              private authenticationService: AuthenticationService) {
     this.orderForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
@@ -65,17 +67,6 @@ export class ShowOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // mapboxgl.accessToken = environment.mapbox.accessToken;
-    Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: this.style,
-      zoom: 13,
-      center: [this.lng, this.lat]
-    });
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-    
     if (this.currentUser == null) {
       this.router.navigate(['/']);
     } else if (this.currentUser.role === 'admin') {
@@ -83,6 +74,15 @@ export class ShowOrderComponent implements OnInit {
     } else{
       this.isDriver = true;
     }
+    // mapboxgl.accessToken = environment.mapbox.accessToken;
+    Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set('pk.eyJ1IjoiZGV1bWF1ZGl0IiwiYSI6ImNraW0xM3QzbzBwM2QycnFqb2huOW00MXYifQ.MWp2RY5TyYnu-HmT4Co79w');
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat]
+    });
+    this.map.addControl(new mapboxgl.NavigationControl());
     this.select = document.getElementById('carplate-select') as HTMLSelectElement;
     this.loadCarplates();
   }
