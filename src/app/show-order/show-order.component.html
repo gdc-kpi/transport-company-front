@@ -5,7 +5,7 @@
               type="button" class="btn btn-outline-secondary p-1 mt-1">Confirm</button>
       <button *ngIf="isDriver" (click)="changeOrderStatus('STARTED')"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Start</button>
-      <button *ngIf="this.currentOrder.status == 'PENDING_CONFIRMATION'.toString()"
+      <button *ngIf="isDriver"
               (click)="changeOrderStatus('REJECTED')" routerLink="/app/driver"
               type="button" class="btn btn-outline-secondary p-1 mt-1">Reject</button>
       <button *ngIf="isDriver" (click)="changeOrderStatus('FAILED')"
