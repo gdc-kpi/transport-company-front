@@ -38,4 +38,9 @@ export class OrderServiceService {
     return this.http.get<Order>(this.url + 'order/' + orderId,
       { headers: this.httpOptions.headers });
   }
+
+  getPath(orderId: string): Observable<Array<object>> {
+    return this.http.get<Array<object>>(this.url + orderId + '/path',
+      { headers: this.httpOptions.headers });
+  }
 }

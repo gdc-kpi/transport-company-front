@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewChild, ElementRef } from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import { Vehicle } from '../_models/vehicle';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
-import { ShowOrderServiceService } from '../_services/show-order-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
 import {Order} from '../_models/order';
 import * as mapboxgl from 'mapbox-gl';
@@ -51,12 +50,12 @@ export class ShowOrderComponent implements OnInit {
 
   isDriver: boolean;
   isDisabled = false;
-  orderId = 'Bruh';
+  orderId: string;
   private routeSub: Subscription;
+
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private orderService: OrderServiceService,
-              private showOrderService: ShowOrderServiceService,
               private driverService: DriverServiceService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute) {
@@ -72,17 +71,17 @@ export class ShowOrderComponent implements OnInit {
       drivername: new FormControl('')
     });
     this.currentUser = authenticationService.currentUserValue;
-    this.orderService.getOrder(this.router.url.substring(12)).subscribe((result) => {
+    this.orderService.getOrder(this.orderId).subscribe((result) => {
           this.currentOrder = result;
         });
   }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
-      this.orderId = params['id'];
+      this.orderId = params.id;
       this.subscriptions.push(
-        this.showOrderService.getPath(this.orderId).subscribe(res => console.log(res))
-      )
+        this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
+      );
       // console.log(params) //log the entire params object
       // console.log(params['id']) //log the value of id
     });
@@ -153,19 +152,21 @@ export class ShowOrderComponent implements OnInit {
   }
 
   loadCarplates(): any {
-    this.orderService.getDriversList().subscribe((result: Vehicle[]) => {
+    if (this.currentUser.role === 'admin') {
+      this.orderService.getDriversList().subscribe((result: Vehicle[]) => {
 
-      result.forEach(val => this.carplates.push(Object.assign({}, val)));
-      for (const index in this.carplates) {
-        if (this.carplates.hasOwnProperty(index)) {
-          this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
-            this.carplates[index].plate.toString());
-        }
-      }
-      this.updateDriverName();
-    },
-      (error) => {
-      });
+          result.forEach(val => this.carplates.push(Object.assign({}, val)));
+          for (const index in this.carplates) {
+            if (this.carplates.hasOwnProperty(index)) {
+              this.select.options[this.select.options.length] = new Option(this.carplates[index].plate.toString(),
+                this.carplates[index].plate.toString());
+            }
+          }
+          this.updateDriverName();
+        },
+        (error) => {
+        });
+    }
   }
 
   updateDriverName(): any {
@@ -191,10 +192,10 @@ export class ShowOrderComponent implements OnInit {
 
   reload(): void {
     this.subscriptions.push(
-      this.showOrderService.getPath(this.orderId).subscribe(res => console.log(res))
-    )
+      this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
+    );
     this.subscriptions.push(
-      this.orderService.getOrder(this.router.url.substring(12)).subscribe(
+      this.orderService.getOrder(this.orderId).subscribe(
         (result) => {
           this.currentOrder = result;
         },
@@ -203,7 +204,7 @@ export class ShowOrderComponent implements OnInit {
 
   async changeOrderStatus(status: string): Promise<void> {
     this.isDisabled = true;
-    this.subscriptions.push(this.driverService.changeOrderStatus(this.currentOrder.orderId, status).subscribe());
+    this.subscriptions.push(this.driverService.changeOrderStatus(this.orderId, status).subscribe());
     await this.delay(2000);
     if (status === 'REJECTED'){
       this.router.navigate(['/app/driver']);
@@ -215,8 +216,4 @@ export class ShowOrderComponent implements OnInit {
   delay(ms: number): any {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
 }
