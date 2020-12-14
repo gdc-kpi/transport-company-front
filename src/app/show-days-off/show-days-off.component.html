@@ -12,8 +12,8 @@
             <div class="row-12" style="display: flex;">
               <h5 *ngIf="isAdmin" class="col-sm">Driver</h5>
               <h5 class="col-sm">Date</h5>
-              <h5 class="col-sm">Status</h5>
-              <h5 *ngIf="isAdmin" class="col-sm">&nbsp;&nbsp;&nbsp;Reject</h5>
+              <h5 *ngIf="!isAdmin" class="col-sm">Status</h5>
+              <h5 *ngIf="isAdmin" class="col-sm">&nbsp;&nbsp;&nbsp;&nbsp;Reject</h5>
               <h5 *ngIf="isAdmin" class="col-sm">&nbsp;&nbsp;Confirm</h5>
             </div>
           </li>
@@ -22,16 +22,16 @@
               <div class="row-12 border-1" style="display: flex;">
                 <h6 *ngIf="isAdmin" class="col-sm">{{dayoff.driverName}}</h6>
                 <h6 class="col-sm">{{dayoff.date}}</h6>
-                <h6 class="col-sm">{{dayoff.status}}</h6>
-                <div *ngIf="isAdmin" class="col-md-auto align:center">
+                <h6 *ngIf="!isAdmin" class="col-sm">{{dayoff.status}}</h6>
+                <div *ngIf="isAdmin" class="col-sm align:center">
                   <button type="button" class="btn btn-outline-primary btn-sm m-2 ml-1"
                           [disabled]="isDisabled"
-                          (click)="changeDayOffStatus(dayoff, false)">Reject</button>
+                          (click)="changeDayOffStatus(dayoff, 'false')">Reject</button>
                 </div>
-                <div *ngIf="isAdmin" class="col-md-auto align:center">
+                <div *ngIf="isAdmin" class="col-sm align:center">
                   <button type="button" class="btn btn-outline-primary btn-sm m-2 mr-1"
                           [disabled]="isDisabled"
-                          (click)="changeDayOffStatus(dayoff, true)">Confirm</button>
+                          (click)="changeDayOffStatus(dayoff, 'true')">Confirm</button>
                 </div>
               </div>
             </li>

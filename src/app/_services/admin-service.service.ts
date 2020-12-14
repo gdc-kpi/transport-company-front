@@ -56,4 +56,20 @@ export class AdminService {
     return this.http.get<Driver[]>(this.url + 'drivers',
       { headers: this.httpOptions.headers, params: new HttpParams().set('fullname', fullname) });
   }
+
+  getDaysOff(): Observable<any> {
+    return this.http.get<any>(this.url + 'days-off',
+      { headers: this.httpOptions.headers });
+  }
+
+  changeDayOffStatus(driverId: string, date: Date, isApproved: string): Observable<any> {
+    const dates = new Array(date);
+    const dayInfo = {
+      driverId,
+      dates,
+      isApproved
+    };
+    console.log('f');
+    return this.http.post<any>(this.url + 'approve-days-off', JSON.stringify(dayInfo), this.httpOptions);
+  }
 }
