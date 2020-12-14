@@ -18,7 +18,7 @@
             </div>
           </li>
             <li class="list-group-item py-0" *ngFor="let dayoff of daysoff; let i = index"
-                [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : 'LightSalmon'">
+                [style.background-color] = "daysoff[i].status === 'Approved'  ? 'LightGreen' : daysoff[i].status === 'Regected'  ? 'LightGreen' : 'White'">
               <div class="row-12 border-1" style="display: flex;">
                 <h6 *ngIf="isAdmin" class="col-sm">{{dayoff.driverName}}</h6>
                 <h6 class="col-sm">{{dayoff.date}}</h6>
