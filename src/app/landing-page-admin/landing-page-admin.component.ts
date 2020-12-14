@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { AdminService } from '../_services/admin-service.service';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
-import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 
 @Component({
   selector: 'app-landing-page-admin',
@@ -15,10 +15,10 @@ export class LandingPageAdminComponent implements OnInit {
   subscriptions: Subscription[] = [];
   currentUser: User;
 
-  confirmedArray: Order[];
-  confirmPendingArray: Order[];
-  finishedArray: Order[];
-  rejectedArray: Order[];
+  confirmedArray: Order2[];
+  confirmPendingArray: Order2[];
+  finishedArray: Order2[];
+  rejectedArray: Order2[];
 
 
   constructor(

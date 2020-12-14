@@ -8,7 +8,7 @@ import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
-import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 import { Driver } from '../_models/driver';
 import * as mapboxgl from 'mapbox-gl';
 
@@ -29,7 +29,7 @@ export class ShowOrderComponent implements OnInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
 
   currentUser: User;
-  currentOrder: Order;
+  currentOrder: Order2;
   orderForm: FormGroup;
   carplates: Driver[] = [];
   select: HTMLSelectElement;
@@ -186,7 +186,7 @@ export class ShowOrderComponent implements OnInit {
 
   loadCarplates(): any {
     if (this.currentUser.role === 'admin') {
-      this.orderService.getDriversList(this.currentOrder).subscribe( (result: Driver[]) => {
+      this.orderService.getDriversList2(this.currentOrder).subscribe( (result: Driver[]) => {
 
         result.forEach(val => this.carplates.push(Object.assign({}, val)));
         for(let index in this.carplates) {        

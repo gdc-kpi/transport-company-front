@@ -2,7 +2,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -44,8 +44,8 @@ export class DriverServiceService {
       { headers: this.httpOptions.headers });
   }
   
-  getOrders(type: string, driver: string): Observable<Order[]> {
-    return this.http.get<Order[]>(this.url + driver + '/orders/' + type,
+  getOrders(type: string, driver: string): Observable<Order2[]> {
+    return this.http.get<Order2[]>(this.url + driver + '/orders/' + type,
       { headers: this.httpOptions.headers });
   }
 

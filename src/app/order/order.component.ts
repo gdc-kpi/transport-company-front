@@ -9,6 +9,7 @@ import { User } from '../_models/user';
 import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
 import * as mapboxgl from 'mapbox-gl';
+import { stringify } from '@angular/compiler/src/util';
 
 const environment = {
   mapbox: {
@@ -110,25 +111,22 @@ export class OrderComponent implements OnInit {
     this.clearCarplates();
     if (orderData.weight == 0 || orderData.weight == null ||
     orderData.volume == 0 || orderData.volume == null ||
-    orderData.deadline === '' || orderData.deadline == null) { 
+    orderData.deadline === '' || orderData.deadline == null) {
       return;
     }
     
     let order = new Order();
-    // order.source = {longitude: '', latitude: ''};
-    order.sourceLatitude = 0;
-    order.sourceLongitude = 0;
-    // order.destination = {longitude: '', latitude: ''};
-    order.destinationLatitude = 0;
-    order.destinationLongitude = 0;
+    order.source = {longitude: '', latitude: ''};
+    order.destination = {longitude: '', latitude: ''};
     order.volume = orderData.volume.toString();
     order.weight = orderData.weight.toString();
-    order.plate = '';
+    order.car_id = '';
     order.description ='';
-    order.adminsId = this.currentUser.id;
     order.deadline = orderData.deadline.replace('T', ' ') + ':00.0';
+    order.admins_id = this.currentUser.id;
     order.title  = '';
 
+    console.log(JSON.stringify(order));
     this.orderService.getDriversList(order).subscribe( (result: Driver[]) => {
 
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
@@ -138,6 +136,7 @@ export class OrderComponent implements OnInit {
       this.updateDriverName();
     },
     (error) => {
+      console.log(JSON.stringify(error));
       this.drivernameMessage = 'Server error: ' + error.error.message;
     });  
   }
@@ -170,18 +169,14 @@ export class OrderComponent implements OnInit {
       let order = new Order();
       let from =  orderData.from.replace('(','').replace(')','').split(',');
       let to =  orderData.to.replace('(','').replace(')','').split(',');
-      // order.source = {longitude: from[0], latitude: from[1]};
-      // order.destination = {longitude: to[0], latitude: to[1]};
-      order.sourceLatitude = from[1];
-      order.sourceLongitude = from[0];
-      order.destinationLatitude = to[1];
-      order.destinationLongitude = to[0];
+      order.source = {longitude: from[0], latitude: from[1]};
+      order.destination = {longitude: to[0], latitude: to[1]};
       order.volume = orderData.volume.toString();
       order.weight = orderData.weight.toString();
-      order.plate = (this.carplates[this.select.selectedIndex].carPlate).toString();
+      order.car_id = this.carplates[this.select.selectedIndex].carPlate.toString();
       order.description  = orderData.description;
-      order.adminsId = this.currentUser.id;
       order.deadline = orderData.deadline.replace('T', ' ') + ':00.0';
+      order.admins_id = this.currentUser.id;
       order.title  = orderData.title;
 
       this.subscriptions.push(

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
-import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 import { Driver } from '../_models/driver';
 
 @Injectable({
@@ -37,8 +37,8 @@ export class AdminService {
       { headers: this.httpOptions.headers });
   }
 
-  getOrders(type: string, admin: string): Observable<Order[]> {
-    return this.http.get<Order[]>(this.url + admin + '/orders/' + type,
+  getOrders(type: string, admin: string): Observable<Order2[]> {
+    return this.http.get<Order2[]>(this.url + admin + '/orders/' + type,
       { headers: this.httpOptions.headers });
   }
 

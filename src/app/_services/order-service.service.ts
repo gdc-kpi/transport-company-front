@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Driver } from '../_models/driver';
 import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +39,17 @@ export class OrderServiceService {
     return this.http.post<any>(this.url + 'order', JSON.stringify(order), this.httpOptions);
   }
 
-  getOrder(orderId: string): Observable<Order> {
-    return this.http.get<Order>(this.url + 'order/' + orderId,
+  getOrder(orderId: string): Observable<Order2> {
+    return this.http.get<Order2>(this.url + 'order/' + orderId,
       { headers: this.httpOptions.headers });
   }
 
   getPath(orderId: string): Observable<Array<object>> {
     return this.http.get<Array<object>>(this.url + orderId + '/path',
       { headers: this.httpOptions.headers });
+  }
+
+  getDriversList2(order: Order2): Observable<Driver[]> {
+    return this.http.post<Driver[]>(this.url + 'drivers-list', JSON.stringify(order), this.httpOptions );
   }
 }

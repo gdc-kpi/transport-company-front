@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
-import { Order } from '../_models/order';
+import { Order2 } from '../_models/order2';
 
 import { AuthenticationService } from '../_services/authentication.service';
 import { DriverServiceService } from '../_services/driver-service.service';
@@ -25,9 +25,9 @@ export class LandingPageDriverComponent implements OnInit {
 
   driversCar: Vehicle;
 
-  upcomingArray: Order[];
-  confirmPendingArray: Order[];
-  finishedArray: Order[];
+  upcomingArray: Order2[];
+  confirmPendingArray: Order2[];
+  finishedArray: Order2[];
 
   isDisabled = false;
 
