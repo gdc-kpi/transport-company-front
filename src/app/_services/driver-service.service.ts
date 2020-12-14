@@ -49,13 +49,8 @@ export class DriverServiceService {
       { headers: this.httpOptions.headers });
   }
 
-  rejectOrder(orderId: string): any {
-    return this.http.patch(environment.apiUrl + 'api/order/status/' + orderId + '?status=REJECTED',
-      {}, { headers: this.httpOptions.headers });
-  }
-
-  confirmOrder(orderId: string): any {
-    return this.http.patch(environment.apiUrl + 'api/order/status/' + orderId + '?status=CONFIRMED',
+  changeOrderStatus(orderId: string, status: string): any {
+    return this.http.patch(environment.apiUrl + 'api/order/status/' + orderId + '?status=' + status,
       {}, { headers: this.httpOptions.headers });
   }
 

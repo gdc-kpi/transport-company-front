@@ -115,13 +115,17 @@ export class OrderComponent implements OnInit {
     }
     
     let order = new Order();
-    order.source = {longitude: '', latitude: ''};
-    order.destination = {longitude: '', latitude: ''};
+    // order.source = {longitude: '', latitude: ''};
+    order.sourceLatitude = 0;
+    order.sourceLongitude = 0;
+    // order.destination = {longitude: '', latitude: ''};
+    order.destinationLatitude = 0;
+    order.destinationLongitude = 0;
     order.volume = orderData.volume.toString();
     order.weight = orderData.weight.toString();
-    order.car_id = '';
+    order.plate = '';
     order.description ='';
-    order.admins_id = this.currentUser.id;
+    order.adminsId = this.currentUser.id;
     order.deadline = orderData.deadline.replace('T', ' ') + ':00.0';
     order.title  = '';
 
@@ -166,13 +170,17 @@ export class OrderComponent implements OnInit {
       let order = new Order();
       let from =  orderData.from.replace('(','').replace(')','').split(',');
       let to =  orderData.to.replace('(','').replace(')','').split(',');
-      order.source = {longitude: from[0], latitude: from[1]};
-      order.destination = {longitude: to[0], latitude: to[1]};
+      // order.source = {longitude: from[0], latitude: from[1]};
+      // order.destination = {longitude: to[0], latitude: to[1]};
+      order.sourceLatitude = from[1];
+      order.sourceLongitude = from[0];
+      order.destinationLatitude = to[1];
+      order.destinationLongitude = to[0];
       order.volume = orderData.volume.toString();
       order.weight = orderData.weight.toString();
-      order.car_id = this.carplates[this.select.selectedIndex].carPlate;
+      order.plate = (this.carplates[this.select.selectedIndex].carPlate).toString();
       order.description  = orderData.description;
-      order.admins_id = this.currentUser.id;
+      order.adminsId = this.currentUser.id;
       order.deadline = orderData.deadline.replace('T', ' ') + ':00.0';
       order.title  = orderData.title;
 

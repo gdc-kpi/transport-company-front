@@ -1,10 +1,10 @@
+<script src="../app.module.ts"></script>
 <div class="row container">
     <div class="columns p-2 pl-5 col-md-8 offset-md-2 ">
         <div id="cap" class="row">
             <h1>
                 {{currentUser.fullname}}
             </h1>
-
         </div>
         <div class="row mt-5 mr-1 p-2">
             <div class="platedata col-md-8 offset-md-4 pb-2" style="background-color: darkgray;">
@@ -38,7 +38,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div>
@@ -64,12 +63,12 @@
                             <div class="col-md-auto align:center">
                               <button type="button" class="btn btn-outline-primary btn-sm p-1 mt-1"
                                       [disabled]="isDisabled"
-                                      (click)="reject(order)">Reject</button>
+                                      (click)="changeOrderStatus(order, 'REJECTED')">Reject</button>
                             </div>
                             <div class="col-md-auto align:center">
                               <button type="button" class="btn btn-outline-primary btn-sm p-1 mt-1"
                                       [disabled]="isDisabled"
-                                      (click)="confirm(order)">Confirm</button>
+                                      (click)="changeOrderStatus(order, 'CONFIRMED')">Confirm</button>
                             </div>
                           </div>
                         </li>

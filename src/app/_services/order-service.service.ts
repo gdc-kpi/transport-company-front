@@ -9,6 +9,7 @@ import { Order } from '../_models/order';
 @Injectable({
   providedIn: 'root'
 })
+
 export class OrderServiceService {
   public currentUser: Observable<User>;
   private url = environment.apiUrl + 'api/';
@@ -16,7 +17,6 @@ export class OrderServiceService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       observe: 'response',
-
     })
   };
 
@@ -26,7 +26,6 @@ export class OrderServiceService {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + localStorage.getItem('userData'),
         observe: 'response',
-
       })
     };
   }
@@ -37,5 +36,15 @@ export class OrderServiceService {
 
   createOrder(order: Order): Observable<any> {
     return this.http.post<any>(this.url + 'order', JSON.stringify(order), this.httpOptions);
+  }
+
+  getOrder(orderId: string): Observable<Order> {
+    return this.http.get<Order>(this.url + 'order/' + orderId,
+      { headers: this.httpOptions.headers });
+  }
+
+  getPath(orderId: string): Observable<Array<object>> {
+    return this.http.get<Array<object>>(this.url + orderId + '/path',
+      { headers: this.httpOptions.headers });
   }
 }

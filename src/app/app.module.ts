@@ -24,6 +24,7 @@ import { InviteAdminComponent } from './invite-admin/invite-admin.component';
 import { NewAdminPasswordComponent } from './new-admin-password/new-admin-password.component';
 import { CarCreatingComponent } from './car-creating/car-creating.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import {ShowOrderComponent} from './show-order/show-order.component';
 import { ShowVehiclesComponent } from './show-vehicles/show-vehicles.component';
 import { ShowDriversComponent } from './show-drivers/show-drivers.component';
 
@@ -46,8 +47,9 @@ import { ShowDriversComponent } from './show-drivers/show-drivers.component';
     ShowVehiclesComponent,
     ShowDriversComponent,
     ShowDaysOffComponent,
-    DaysOffComponent
-   ],
+    DaysOffComponent,
+    ShowOrderComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -56,8 +58,9 @@ import { ShowDriversComponent } from './show-drivers/show-drivers.component';
     HttpClientModule,
     MatFormFieldModule,
     BrowserModule,
-     FormsModule,
-     BrowserAnimationsModule,MatTabsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
