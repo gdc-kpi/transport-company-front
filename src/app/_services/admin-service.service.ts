@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Vehicle } from '../_models/vehicle';
 import { Order2 } from '../_models/order2';
+import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
 
 @Injectable({
@@ -37,8 +38,8 @@ export class AdminService {
       { headers: this.httpOptions.headers });
   }
 
-  getOrders(type: string, admin: string): Observable<Order2[]> {
-    return this.http.get<Order2[]>(this.url + admin + '/orders/' + type,
+  getOrders(type: string, admin: string): Observable<Order[]> {
+    return this.http.get<Order[]>(this.url + admin + '/orders/' + type,
       { headers: this.httpOptions.headers });
   }
 
@@ -60,5 +61,21 @@ export class AdminService {
   getVehicleFilter(plate: string): Observable<Map<String, Vehicle>> {
     return this.http.get<Map<String, Vehicle>>(this.url + 'vehicles',
       { headers: this.httpOptions.headers, params: new HttpParams().set('plate', plate) });
+  }
+
+  getDaysOff(): Observable<any> {
+    return this.http.get<any>(this.url + 'days-off',
+      { headers: this.httpOptions.headers });
+  }
+
+  changeDayOffStatus(driverId: string, date: Date, isApproved: string): Observable<any> {
+    const dates = new Array(date);
+    const dayInfo = {
+      driverId,
+      dates,
+      isApproved
+    };
+    console.log('f');
+    return this.http.post<any>(this.url + 'approve-days-off', JSON.stringify(dayInfo), this.httpOptions);
   }
 }
