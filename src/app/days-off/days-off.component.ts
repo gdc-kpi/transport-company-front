@@ -45,7 +45,7 @@ export class DaysOffComponent implements OnInit {
   
       if (this.validate(daysoffData)) {
       let days = this.listDays(new Date(daysoffData.starting), new Date(daysoffData.ending));
-
+          console.log(days);
         this.subscriptions.push(
           this.driverService.setDaysOff(days).subscribe(
             (result) => {
@@ -63,7 +63,7 @@ export class DaysOffComponent implements OnInit {
     listDays(startDate: Date, endDate: Date): Date[] {
     let dates = [];
     while (startDate <= endDate) { 
-        dates.push(startDate);
+        dates.push(new Date(startDate));
         startDate.setDate(startDate.getDate() + 1);
     }
     return dates;
