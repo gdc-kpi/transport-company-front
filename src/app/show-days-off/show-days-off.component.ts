@@ -55,8 +55,7 @@ export class ShowDaysOffComponent implements OnInit {
       this.adminService.getDaysOff().subscribe( (result: any) => {
           result.forEach(val => {
             this.daysoff.push(
-              {date: val.date, status: val.first === 'true' ? 'Approved' : val.first === 'false' ? 'Rejected' : 'Pending',
-                driverName: val.fullname, driverId: val.user_id}
+              {date: val.date, status: 'Pending', driverName: val.fullname, driverId: val.user_id}
             );
           });
         },
@@ -66,8 +65,8 @@ export class ShowDaysOffComponent implements OnInit {
       this.driverService.getDaysOff(this.currentUser.id).subscribe( (result: any) => {
           result.forEach(val => {
             this.daysoff.push(
-              {date: val.second.split('T')[0], status: val.first === 'true' ? 'Approved' : val.first === 'false' ? 'Rejected' : 'Pending',
-                driverName: this.currentUser.fullname, driverId: this.currentUser.id}
+              {date: val.second.split('T')[0], driverName: this.currentUser.fullname, driverId: this.currentUser.id,
+                status: val.first === 'true' ? 'Approved' : val.first === 'false' ? 'Rejected' : 'Pending'}
             );
           });
         },
