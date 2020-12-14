@@ -128,8 +128,9 @@ export class OrderComponent implements OnInit {
 
     console.log(JSON.stringify(order));
     this.orderService.getDriversList(order).subscribe( (result: Driver[]) => {
-
+      console.log(result);
       result.forEach(val => this.carplates.push(Object.assign({}, val)));
+      console.log(this.carplates);
       for(let index in this.carplates) {        
         this.select.options[this.select.options.length] = new Option(this.carplates[index].carPlate.toString(), this.carplates[index].carPlate.toString());
       }

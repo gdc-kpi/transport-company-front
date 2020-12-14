@@ -73,7 +73,7 @@
             <div class="col-sm-6 form-group">
                 <label for="carplate" class="col-sm-12 control-label">Car plate</label>
                 <div class="col-sm-12">
-                    <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
+                    <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate" (change)="updateDriverName()"></select>
                     <div *ngIf="carplateMessage" style="color: red;">
                         {{carplateMessage}}
                     </div>
