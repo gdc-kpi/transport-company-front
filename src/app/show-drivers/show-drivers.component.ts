@@ -20,6 +20,8 @@ export class ShowDriversComponent implements OnInit {
 
   currentUser: User;
   drivers: Driver[] = [];
+  searchText = "";
+
 
   constructor(private router: Router,
               private adminService: AdminService,
@@ -34,7 +36,7 @@ export class ShowDriversComponent implements OnInit {
       this.router.navigate(['/']);
   }
 
-    this.getDrivers();
+    this.getDrivers(this.searchText);
   }
 
   ngOnDestroy() {
@@ -45,9 +47,9 @@ export class ShowDriversComponent implements OnInit {
     this.location.back();
   }
 
-  getDrivers(): any {
+  getDrivers(searchText: string): any {
     this.subscriptions.push(
-      this.adminService.getDrivers("").subscribe(
+      this.adminService.getDrivers(searchText).subscribe(
         (result) => {
           this.drivers = result;
           console.log(result);

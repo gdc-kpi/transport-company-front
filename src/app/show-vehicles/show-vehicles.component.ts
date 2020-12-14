@@ -19,6 +19,7 @@ export class ShowVehiclesComponent implements OnInit {
 
   currentUser: User;
   vehicles: Map<String, Vehicle>;
+  searchText = "";
 
   constructor(private router: Router,
               private adminService: AdminService,
@@ -32,10 +33,7 @@ export class ShowVehiclesComponent implements OnInit {
       this.currentUser.role !== 'admin') {
       this.router.navigate(['/']);
   }
-    // this.select = document.getElementById("carplate-select") as HTMLSelectElement; 
-    // this.loadCarplates(this.orderForm.value);
-
-    this.getVehicles()
+    this.getVehicleFilter(this.searchText)
   }
 
   ngOnDestroy() {
@@ -49,6 +47,17 @@ export class ShowVehiclesComponent implements OnInit {
   getVehicles(): any {
     this.subscriptions.push(
       this.adminService.getAllCars().subscribe(
+        (result) => {
+          this.vehicles = result;
+          console.log(result);
+        },
+      ));
+  }
+
+
+  getVehicleFilter(searchText: string): any {
+    this.subscriptions.push(
+      this.adminService.getVehicleFilter(searchText).subscribe(
         (result) => {
           this.vehicles = result;
           console.log(result);

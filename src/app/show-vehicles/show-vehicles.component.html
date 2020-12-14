@@ -4,14 +4,20 @@
     </div>
   
     <div class="columns plr-5 col-md-6 p-2">
+      <div class="form-group">
+        <input type="email" class="form-control" id="search-text" aria-describedby="search-text" 
+          [(ngModel)]="searchText" placeholder="Enter vehicle's plate to search" 
+          autofocus>
+          <button type="button" class="w-100 btn btn-outline-secondary p-1 mt-1"  (click)="getVehicleFilter(searchText);">Search</button>
+      </div>
       <ul class="no-bullets list-group " style="margin-bottom: 1em;">
         <li class="list-group-item" *ngFor="let vehicle of vehicles">
           <div class="border-1 p-2">
             <h5><a>{{vehicle.plate}}</a></h5>
             <b>Driver:</b> {{vehicle.fullname}} <br/>
-            <b>Capacity:</b> {{vehicle.capacity}} <br/>
-            <b>Carrying:</b> {{vehicle.load_capacity}} <br/>
-            <b>Fuel consumption:</b> {{vehicle.fuel_consumption}} <br/>
+            <b>Capacity:</b> {{vehicle.capacity}} cubic m <br/>
+            <b>Carrying:</b> {{vehicle.load_capacity}} kg <br/>
+            <b>Fuel consumption:</b> {{vehicle.fuel_consumption}} l/km <br/>
           </div>
         </li>
       </ul>

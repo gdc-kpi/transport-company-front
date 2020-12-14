@@ -56,4 +56,9 @@ export class AdminService {
     return this.http.get<Driver[]>(this.url + 'drivers',
       { headers: this.httpOptions.headers, params: new HttpParams().set('fullname', fullname) });
   }
+
+  getVehicleFilter(plate: string): Observable<Map<String, Vehicle>> {
+    return this.http.get<Map<String, Vehicle>>(this.url + 'vehicles',
+      { headers: this.httpOptions.headers, params: new HttpParams().set('plate', plate) });
+  }
 }
