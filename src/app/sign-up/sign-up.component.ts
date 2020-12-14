@@ -40,7 +40,7 @@ export class SignUpComponent implements OnInit {
         this.authenticationService.signUp(signUpData.email, signUpData.fullName, signUpData.password).subscribe(
           (result) => {
             alert('Check your email!');
-            this.signUpForm.reset();
+            this.router.navigate(['/login'])
           },
           (error) => {
             this.confirmPasswordMessage = error.error.message;
