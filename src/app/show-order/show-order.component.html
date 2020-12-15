@@ -1,6 +1,6 @@
 <div class="row container">
   <div class="col-md-1 columns-2 mr-auto h-50" style="max-height: min-content;">
-    <div *ngIf="isDriver && currentOrder">
+    <div *ngIf="isDriver">
       <div *ngIf="currentOrder.status !== 'FINISHED' && currentOrder.status !== 'FAILED'" class="row p-2">
         <button *ngIf="currentOrder.status == 'PENDING_CONFIRMATION'"
               (click)="changeOrderStatus('CONFIRMED')" [disabled]="isDisabled"
@@ -36,11 +36,11 @@
         </div>
       </div>
 
-      <div *ngIf="!isDriver" class="form-group">
+      <div *ngIf="!isDriver && status === 'REJECTED'" class="form-group">
         <div class="form-row">
             <label for="carplate" class="col-sm-12 control-label">Car plate</label>
             <div class="col-sm-12">
-              <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
+              <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate" (change)="updateDriverName()"></select>
               <div *ngIf="carplateMessage" style="color: red;">
                 {{carplateMessage}}
               </div>

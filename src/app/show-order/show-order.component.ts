@@ -9,6 +9,7 @@ import { AuthenticationService } from '../_services/authentication.service';
 import { OrderServiceService } from '../_services/order-service.service';
 import { DriverServiceService } from '../_services/driver-service.service';
 import { Order2 } from '../_models/order2';
+import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
 import * as mapboxgl from 'mapbox-gl';
 
@@ -52,6 +53,7 @@ export class ShowOrderComponent implements OnInit {
   isDriver: boolean;
   isDisabled = false;
   orderId: string;
+  status: string;
   private routeSub: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -79,6 +81,8 @@ export class ShowOrderComponent implements OnInit {
       this.orderId = params.id;
       this.orderService.getOrder(this.orderId).subscribe((result) => {
         this.currentOrder = result;
+        this.status = this.currentOrder.status;
+        this.loadCarplates();
       });
       /*
       this.subscriptions.push(
@@ -135,41 +139,31 @@ export class ShowOrderComponent implements OnInit {
         });
       })
     });
-    this.select = document.getElementById('carplate-select') as HTMLSelectElement;
-    this.loadCarplates();
   }
 
-  onSubmit(orderData): any {
+  onSubmit(orderData) {
     this.clearErrorMessages();
-
-    // if (this.validate(orderData)) {
-    //   this.subscriptions.push(
-    //     // this.orderService.createOrder(orderData.title, orderData.description).subscribe(
-    //     //   (result) => {
-    //     //       this.router.navigate(['/app/admin']);
-    //     //   },
-    //     //   (error) => {
-    //     //     this.titleMessage = error.error.message;
-    //     //   }
-    //     // ));
-    // }
+    if (this.validate(orderData)) {
+      this.subscriptions.push(
+        // this.orderService.createOrder(orderData.title, orderData.description).subscribe(
+        //   (result) => {
+        //       this.router.navigate(['/app/admin']);
+    // this.reload();
+        //   },
+        //   (error) => {
+        //     this.titleMessage = error.error.message;
+        //   }
+        // )
+        );
+    }
   }
 
   validate(orderData): boolean {
-    if (orderData.title === '' || orderData.title == null) {
-      this.titleMessage = 'Title cannot be empty';
-    } /* else if (!orderData.title.match(
-      '^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$')) {
-      this.titleMessage = 'Incorrect title';
-    } */
+    if (this.carplates[this.select.selectedIndex].carPlate === '' || this.carplates[this.select.selectedIndex].carPlate == null) {
+      this.carplateMessage = 'Carplate cannot be empty';
+    }
 
-    if (orderData.description === '' || orderData.description == null) {
-      this.descriptionMessage = 'Description cannot be empty';
-    }/* else if (!orderData.password.match('.{6,}')) {
-      this.descriptionMessage = 'Description must be 6 characters long at least';
-    } */
-
-    return this.titleMessage === null && this.descriptionMessage === null;
+    return this.carplateMessage === null;
   }
 
   clearErrorMessages(): any {
@@ -184,23 +178,40 @@ export class ShowOrderComponent implements OnInit {
     this.drivernameMessage = null;
   }
 
-  loadCarplates(): any {
+  loadCarplates() {
+
     if (this.currentUser.role === 'admin') {
-      this.orderService.getDriversList2(this.currentOrder).subscribe( (result: Driver[]) => {
+      let order = new Order();
+      order.source = {longitude: '', latitude: ''};
+      order.destination = {longitude: '', latitude: ''};
+      order.volume = this.currentOrder.volume.toString();
+      order.weight = this.currentOrder.weight.toString();
+      order.car_id = '';
+      order.description ='';
+      order.deadline = this.currentOrder.deadline.replace('T', ' ') + '.0';
+      order.admins_id = this.currentUser.id;
+      order.title  = '';
+
+      this.orderService.getDriversList(order).subscribe( (result: Driver[]) => {
 
         result.forEach(val => this.carplates.push(Object.assign({}, val)));
+        this.select = document.getElementById('carplate-select') as HTMLSelectElement;
         for(let index in this.carplates) {        
           this.select.options[this.select.options.length] = new Option(this.carplates[index].carPlate.toString(), this.carplates[index].carPlate.toString());
         }
         this.updateDriverName();
       },
       (error) => {
+        console.log(JSON.stringify(error));
         this.drivernameMessage = 'Server error: ' + error.error.message;
       }); 
     }
   }
 
-  updateDriverName(): any {
+  updateDriverName() {
+    if (this.select.selectedIndex < 0) {
+      return;
+    }
     if (this.carplates[this.select.selectedIndex].fullname) {
       this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].fullname.toString()});
     }
@@ -209,24 +220,12 @@ export class ShowOrderComponent implements OnInit {
     }
   }
 
-  /*fromClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({ from: event.latLng.toString() });
-    const fromDialog = document.getElementById('fromMapDialog') as HTMLDialogElement;
-    fromDialog.close();
-  }
 
-  toClick(event: google.maps.MouseEvent): void {
-    this.orderForm.patchValue({ to: event.latLng.toString() });
-    const toDialog = document.getElementById('toMapDialog') as HTMLDialogElement;
-    toDialog.close();
-  }*/
-
-  reload(): void {/*
-    this.subscriptions.push(
-      this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-    );*/
+  reload() {
     this.orderService.getOrder(this.orderId).subscribe((result) => {
-      this.currentOrder = result;
+        this.currentOrder = result;
+        this.status = this.currentOrder.status;
+        this.loadCarplates();
     });
   }
 
