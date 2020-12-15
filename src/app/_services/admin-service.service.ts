@@ -75,7 +75,6 @@ export class AdminService {
       dates,
       isApproved
     };
-    console.log('f');
     return this.http.post<any>(this.url + 'approve-days-off', JSON.stringify(dayInfo), this.httpOptions);
   }
 }

@@ -49,7 +49,6 @@ export class ShowVehiclesComponent implements OnInit {
       this.adminService.getAllCars().subscribe(
         (result) => {
           this.vehicles = result;
-          console.log(result);
         },
       ));
   }
@@ -60,7 +59,6 @@ export class ShowVehiclesComponent implements OnInit {
       this.adminService.getVehicleFilter(searchText).subscribe(
         (result) => {
           this.vehicles = result;
-          console.log(result);
         },
       ));
   }

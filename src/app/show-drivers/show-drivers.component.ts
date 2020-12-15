@@ -42,7 +42,7 @@ export class ShowDriversComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-  
+
   backClicked() {
     this.location.back();
   }
@@ -52,7 +52,6 @@ export class ShowDriversComponent implements OnInit {
       this.adminService.getDrivers(searchText).subscribe(
         (result) => {
           this.drivers = result;
-          console.log(result);
         },
       ));
   }
