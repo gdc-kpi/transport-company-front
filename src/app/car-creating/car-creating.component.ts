@@ -58,14 +58,14 @@ export class CarCreatingComponent implements OnInit {
       '^[A-Z]{2}[0-9]{4}[A-Z]{2}')) {
       this.plateMessage = 'Incorrect plate';
     }
-    if (carData.capacity === 0) {
-      this.capacityMessage = 'Capacity cannot be 0';
+    if (carData.capacity <= 0) {
+      this.capacityMessage = 'Capacity must be greater than 0';
     }
-    if (carData.loadCapacity === 0) {
-      this.loadCapacityMessage = 'Load capacity cannot be 0';
+    if (carData.loadCapacity <= 0) {
+      this.loadCapacityMessage = 'Load capacity must be greater than 0';
     }
-    if (carData.fuelConsumption === 0) {
-      this.fuelConsumptionMessage = 'Fuel consumption cannot be 0';
+    if (carData.fuelConsumption <= 0) {
+      this.fuelConsumptionMessage = 'Fuel consumption must be greater than 0';
     }
     // tslint:disable-next-line:max-line-length
     return this.plateMessage === null && this.capacityMessage === null && this.loadCapacityMessage === null && this.fuelConsumptionMessage === null;
