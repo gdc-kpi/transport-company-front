@@ -1,12 +1,12 @@
 <script src="../app.module.ts"></script>
 <div class="row container">
-    <div class="columns p-2 pl-5 col-md-8 offset-md-2 ">
-        <div id="cap" class="row">
+    <div class="columns p-2 col-md-8 offset-md-2">
+        <div id="cap" class="row ml-1">
             <h1>
                 {{currentUser.fullname}}
             </h1>
         </div>
-        <div class="row mt-5 mr-1 p-2">
+        <div class="row mt-5 mr-1 p-2 ml-1">
             <div class="platedata col-md-8 offset-md-4 pb-2" style="background-color: darkgray;">
                 <h1 style="text-align: center;">
                     {{ driversCar === undefined ? "????????" : driversCar.plate }}

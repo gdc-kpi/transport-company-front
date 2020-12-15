@@ -1,4 +1,4 @@
-<div class="row container">
+<div class="row container offset-md-1">
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
     <div *ngIf="isDriver && currentOrder">
       <div *ngIf="currentOrder.status !== 'FINISHED' && currentOrder.status !== 'FAILED'" class="row p-2">
@@ -44,22 +44,17 @@
 
       <div *ngIf="!isDriver" class="form-group">
         <div class="form-row">
-          <div class="col-sm-6 form-group">
             <label for="carplate" class="col-sm-12 control-label">Car plate</label>
             <div class="col-sm-12">
-              <label for="carplate-select"></label>
-              <select id="carplate-select" formControlName="carplate" class="form-control"
-                                                           name="carplate"></select>
+              <select id="carplate-select" formControlName="carplate" class="form-control" name="carplate"></select>
               <div *ngIf="carplateMessage" style="color: red;">
                 {{carplateMessage}}
               </div>
             </div>
-          </div>
           <label for="drivername" class="col-sm-12 control-label">Driver's full name</label>
           <div class="col-sm-12">
-            <label>
               <input formControlName="drivername" class="form-control" name="drivername" readonly>
-            </label>
+              <label></label>
             <div *ngIf="drivernameMessage" style="color: red;">
               {{drivernameMessage}}
             </div>
@@ -70,11 +65,11 @@
     </form>
   </div>
   <div class="col-md-1 columns-2 ml-auto h-50" style="max-height: min-content;">
-    <div class="p-2">
+    <div class="p-2 ">
       <button *ngIf="isDriver" routerLink="/app/driver"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Go back</button>
+              type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Back</button>
       <button *ngIf="!isDriver" routerLink="/app/admin"
-              type="button" class="btn btn-outline-secondary p-1 mt-1">Go back</button>
+              type="button" class="w-100 btn btn-outline-secondary p-1 mt-1">Back</button>
     </div>
   </div>
 </div>
