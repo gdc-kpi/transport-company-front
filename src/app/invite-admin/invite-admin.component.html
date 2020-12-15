@@ -2,14 +2,14 @@
     <h2 style="text-align: center;">{{title}}</h2>
     <form *ngIf="!invited" class="form-horizontal m-1" role="form" [formGroup]="inviteForm" (ngSubmit)="onSubmit(inviteForm.value)">
         <label for="email" class="col-sm-3 control-label">Email</label>
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <input formControlName="email" class="form-control" name="email">
             <div *ngIf="emailMessage" style="color: red;">
                 {{emailMessage}}
             </div>
         </div>
         <label for="fullname" class="col-3 control-label">Fullname</label>
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <input type="fullname" formControlName="fullname" class="form-control">
             <div *ngIf="passwordMessage" style="color: red;">
                 {{passwordMessage}}

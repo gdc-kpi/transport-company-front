@@ -9,7 +9,6 @@ import { User } from '../_models/user';
 import { Order } from '../_models/order';
 import { Driver } from '../_models/driver';
 import * as mapboxgl from 'mapbox-gl';
-import { stringify } from '@angular/compiler/src/util';
 
 const environment = {
   mapbox: {
@@ -200,17 +199,12 @@ export class OrderComponent implements OnInit {
      if (orderData.title === '' || orderData.title == null) {
       this.titleMessage = 'Title cannot be empty';
       invalid = true;
-    }  /*else if (!orderData.title.match(
-      '^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$')) {
-      this.titleMessage = 'Incorrect title';
-    } */
+    }
 
     if (orderData.description === '' || orderData.description == null) {
       this.descriptionMessage = 'Description cannot be empty';
       invalid = true;
-    }/* else if (!orderData.password.match('.{6,}')) {
-      this.descriptionMessage = 'Description must be 6 characters long at least';
-    } */
+    }
 
     if (orderData.weight <= 0 || orderData.weight == null) {
       this.weightMessage = 'Weight cannot be zero or negative';

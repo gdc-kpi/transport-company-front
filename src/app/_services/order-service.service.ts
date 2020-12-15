@@ -52,4 +52,9 @@ export class OrderServiceService {
   getDriversList2(order: Order2): Observable<Driver[]> {
     return this.http.post<Driver[]>(this.url + 'drivers-list', JSON.stringify(order), this.httpOptions );
   }
+
+  assignDriver(orderId: string, driverid: string): any {
+    return this.http.patch(environment.apiUrl + 'api/order/' + orderId + '?driver=' + driverid,
+      {}, { headers: this.httpOptions.headers });
+  }
 }

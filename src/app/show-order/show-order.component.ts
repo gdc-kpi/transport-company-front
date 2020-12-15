@@ -84,12 +84,6 @@ export class ShowOrderComponent implements OnInit {
         this.status = this.currentOrder.status;
         this.loadCarplates();
       });
-      /*
-      this.subscriptions.push(
-        this.orderService.getPath(this.orderId).subscribe(res => console.log(res))
-      );*/
-      // console.log(params) //log the entire params object
-      // console.log(params['id']) //log the value of id
     });
     if (this.currentUser == null) {
       this.router.navigate(['/']);
@@ -145,15 +139,15 @@ export class ShowOrderComponent implements OnInit {
     this.clearErrorMessages();
     if (this.validate(orderData)) {
       this.subscriptions.push(
-        // this.orderService.createOrder(orderData.title, orderData.description).subscribe(
-        //   (result) => {
-        //       this.router.navigate(['/app/admin']);
-    // this.reload();
-        //   },
-        //   (error) => {
-        //     this.titleMessage = error.error.message;
-        //   }
-        // )
+        this.orderService.assignDriver(this.currentOrder.orderId, this.carplates[this.select.selectedIndex].carPlate.toString()).subscribe(
+          (result) => {
+              this.reload();
+          },
+          (error) => {
+            console.log(error);
+            this.drivernameMessage = 'Server error: ' + error.error.message;
+          }
+        )
         );
     }
   }
