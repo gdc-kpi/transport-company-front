@@ -170,8 +170,8 @@ export class OrderComponent implements OnInit {
       let order = new Order();
       let from =  orderData.from.replace('(','').replace(')','').split(',');
       let to =  orderData.to.replace('(','').replace(')','').split(',');
-      order.source = {longitude: from[0], latitude: from[1]};
-      order.destination = {longitude: to[0], latitude: to[1]};
+      order.source = {longitude: from[1], latitude: from[0]};
+      order.destination = {longitude: to[1], latitude: to[0]};
       order.volume = orderData.volume.toString();
       order.weight = orderData.weight.toString();
       order.car_id = this.carplates[this.select.selectedIndex].carPlate.toString();
