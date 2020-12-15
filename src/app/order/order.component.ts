@@ -212,13 +212,13 @@ export class OrderComponent implements OnInit {
       this.descriptionMessage = 'Description must be 6 characters long at least';
     } */
 
-    if (orderData.weight == 0 || orderData.weight == null) {
-      this.weightMessage = 'Weight cannot be zero';
+    if (orderData.weight <= 0 || orderData.weight == null) {
+      this.weightMessage = 'Weight cannot be zero or negative';
       invalid = true;
     } 
 
-    if (orderData.volume == 0 || orderData.volume == null) {
-      this.volumeMessage = 'Volume cannot be zero';
+    if (orderData.volume <= 0 || orderData.volume == null) {
+      this.volumeMessage = 'Volume cannot be zero or negative';
       invalid = true;
     } 
 
