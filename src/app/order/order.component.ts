@@ -149,10 +149,7 @@ export class OrderComponent implements OnInit {
   }
 
   updateDriverName() {
-    if (this.select.selectedIndex < 0) {
-      return;
-    }
-    if (this.carplates[this.select.selectedIndex].fullname) {
+    if ( this.select.selectedIndex >= 0 && this.carplates[this.select.selectedIndex].fullname) {
       this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].fullname.toString()});
     }
     else {

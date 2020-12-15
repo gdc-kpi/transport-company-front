@@ -139,7 +139,7 @@ export class ShowOrderComponent implements OnInit {
     this.clearErrorMessages();
     if (this.validate(orderData)) {
       this.subscriptions.push(
-        this.orderService.assignDriver(this.currentOrder.orderId, this.carplates[this.select.selectedIndex].carPlate.toString()).subscribe(
+        this.orderService.assignDriver(this.currentOrder.orderId, this.carplates[this.select.selectedIndex].id.toString()).subscribe(
           (result) => {
               this.reload();
           },
@@ -188,8 +188,9 @@ export class ShowOrderComponent implements OnInit {
 
       this.orderService.getDriversList(order).subscribe( (result: Driver[]) => {
 
-        result.forEach(val => this.carplates.push(Object.assign({}, val)));
         this.select = document.getElementById('carplate-select') as HTMLSelectElement;
+        this.clearCarplates();
+        result.forEach(val => this.carplates.push(Object.assign({}, val)));
         for(let index in this.carplates) {        
           this.select.options[this.select.options.length] = new Option(this.carplates[index].carPlate.toString(), this.carplates[index].carPlate.toString());
         }
@@ -201,12 +202,16 @@ export class ShowOrderComponent implements OnInit {
       }); 
     }
   }
+  
+  clearCarplates() {
+    this.carplates.length = 0;
+    this.select.options.length = 0;
+    this.select.selectedIndex = -1;
+    this.updateDriverName();
+  }
 
   updateDriverName() {
-    if (this.select.selectedIndex < 0) {
-      return;
-    }
-    if (this.carplates[this.select.selectedIndex].fullname) {
+    if (this.select.selectedIndex >= 0 && this.carplates[this.select.selectedIndex].fullname) {
       this.orderForm.patchValue({drivername: this.carplates[this.select.selectedIndex].fullname.toString()});
     }
     else {
