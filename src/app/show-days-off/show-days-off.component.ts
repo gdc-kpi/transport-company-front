@@ -57,6 +57,7 @@ export class ShowDaysOffComponent implements OnInit {
             this.daysoff.push(
               {date: val.date, status: 'Pending', driverName: val.fullname, driverId: val.user_id}
             );
+            this.daysoff.sort((day1, day2) => day1.driverId > day2.driverId ? 1 : -1);
           });
         },
         (error) => {
@@ -68,6 +69,7 @@ export class ShowDaysOffComponent implements OnInit {
               {date: val.second.split('T')[0], driverName: this.currentUser.fullname, driverId: this.currentUser.id,
                 status: val.first === 'true' ? 'Approved' : val.first === 'false' ? 'Rejected' : 'Pending'}
             );
+            this.daysoff.sort((day1, day2) => day1.date > day2.date ? 1 : -1);
           });
         },
         (error) => {
